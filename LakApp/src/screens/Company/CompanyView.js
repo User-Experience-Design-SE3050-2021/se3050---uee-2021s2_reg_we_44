@@ -17,7 +17,8 @@ const {width , height} = Dimensions.get("window")
 
 const styles = StyleSheet.create({
     Bodycontainer:{
-        backgroundColor:'#F6F6F9'
+        backgroundColor:'#F6F6F9',
+        marginTop:40
     },
     scrollView:{
         

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabScreen from "./src/screens/Tab";
 import PostAdCategoryScreen from "./src/screens/ads/PostAdCategory";
 import CompanyAddForm from "./src/screens/Company/CompanyAddForm"
+import CompanyView from "./src/screens/Company/CompanyView";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,28 @@ const App = () => {
             },
           }}
           name="CompanyAddForm" component={CompanyAddForm} />
+
+
+<Stack.Screen
+      options={{
+      title: 'Burger Palace "Colombo 03"',
+      headerStyle: {
+      backgroundColor: '#F6F6F9',
+      elevation: 0,
+      shadowOpacity: 0,
+
+    },
+      headerTintColor: '#000',
+      headerTitleStyle: {
+      fontWeight: '700',
+      fontSize: 20,
+      headerShadowVisible: false,
+      textAlign: "left",
+      fontFamily: "Raleway-Bold"
+    },
+    }}
+
+      name="CompanyView" component={CompanyView} />
 
       </Stack.Navigator>
     </NavigationContainer>
