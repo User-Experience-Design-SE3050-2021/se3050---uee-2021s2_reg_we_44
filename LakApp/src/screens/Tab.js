@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header } from 'react-native-elements';
 import HomeScreen from './ads/HomeScreen';
+import PostAdCategoryScreen from './ads/PostAdCategory';
 
 var primaryColor = '#7D86F5'
 var lightColor = '#CFD4FF'
@@ -132,7 +133,7 @@ function TabScreen() {
 
             }
 
-            <Tab.Screen name="ActionButton" component={MainScreen} options={{
+            <Tab.Screen name="ActionButton" component={PostAdCategoryScreen} options={{
                  headerShown: false,
                 headerTitleAlign: 'center',
                 headerTitleStyle: [{
@@ -214,12 +215,5 @@ function TabScreen() {
         </Tab.Navigator>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-    },
-});
 
 export default TabScreen;
