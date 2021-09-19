@@ -18,6 +18,9 @@ function SettingsScreen({navigation}) {
             <Button mode="contained" onPress={() => navigation.navigate('CompanyAddForm')}>
                 Add New Company
             </Button>
+            <Button style={{marginTop:20 }} icon="" mode="contained" onPress={() => navigation.navigate('CompanyView')}>
+                 Company Advertisement 
+            </Button>
         </View>
     );
 }
