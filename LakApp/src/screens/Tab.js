@@ -6,15 +6,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header } from 'react-native-elements';
 import HomeScreen from './ads/HomeScreen';
 import PostAdCategoryScreen from './ads/PostAdCategory';
+import { Button } from 'react-native-paper';
 
 var primaryColor = '#7D86F5'
 var lightColor = '#CFD4FF'
 
 
-function SettingsScreen() {
+function SettingsScreen({navigation}) {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Settings!</Text>
+            <Button mode="contained" onPress={() => navigation.navigate('CompanyAddForm')}>
+                Add New Company
+            </Button>
         </View>
     );
 }
