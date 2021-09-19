@@ -11,7 +11,6 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"Home"}>
         <Stack.Screen name="Home" component={TabScreen}></Stack.Screen>
-        <Stack.Screen name="PostAd1" component={PostAdCategoryScreen}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   )
