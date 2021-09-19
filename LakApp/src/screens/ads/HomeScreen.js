@@ -10,42 +10,50 @@ import { Header } from 'react-native-elements';
 var cardData = [{
     name: 'Toyota CHR',
     address: 'Galle, Galle',
+    uri: "https://cdn.jdpower.com/JDPA_2020%20Toyota%20C-HR%20Limited%20Blue%20Front%20View.jpg",
     price: '8,500,000',
     updated: '1 week ago'
 }, {
     name: 'Toyota Vitz',
     address: 'Galle, Galle',
-    price: '8,500,000',
+    uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/2008_Toyota_Vitz_02.jpg/1200px-2008_Toyota_Vitz_02.jpg",
+    price: '3,500,000',
     updated: '1 week ago'
 }, {
     name: 'Toyota Premio',
     address: 'Galle, Galle',
-    price: '8,500,000',
+    uri: "https://importdirect.lk/wp-content/uploads/2020/03/20190712_162124.jpg",
+    price: '9,500,000',
     updated: '1 week ago'
 }, {
     name: 'Discovery Sport',
     address: 'Galle, Galle',
-    price: '8,500,000',
+    uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2021-land-rover-discovery-r-dynamic-103-1604948700.jpg?crop=0.806xw:0.906xh;0.117xw,0.0938xh&resize=640:*",
+    price: '13,500,000',
     updated: '1 week ago'
 }, {
     name: 'Toyota CHR',
     address: 'Galle, Galle',
+    uri: "https://cdn.jdpower.com/JDPA_2020%20Toyota%20C-HR%20Limited%20Blue%20Front%20View.jpg",
     price: '8,500,000',
     updated: '1 week ago'
 }, {
-    name: 'Toyota CHR',
+    name: 'Toyota Vitz',
     address: 'Galle, Galle',
-    price: '8,500,000',
+    uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/2008_Toyota_Vitz_02.jpg/1200px-2008_Toyota_Vitz_02.jpg",
+    price: '3,500,000',
     updated: '1 week ago'
 }, {
-    name: 'Toyota CHR',
+    name: 'Toyota Premio',
     address: 'Galle, Galle',
-    price: '8,500,000',
+    uri: "https://importdirect.lk/wp-content/uploads/2020/03/20190712_162124.jpg",
+    price: '9,500,000',
     updated: '1 week ago'
 }, {
-    name: 'Toyota CHR',
+    name: 'Discovery Sport',
     address: 'Galle, Galle',
-    price: '8,500,000',
+    uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2021-land-rover-discovery-r-dynamic-103-1604948700.jpg?crop=0.806xw:0.906xh;0.117xw,0.0938xh&resize=640:*",
+    price: '13,500,000',
     updated: '1 week ago'
 }]
 
@@ -58,10 +66,15 @@ function HomeScreen({ navigation }) {
     return (
         <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 80 }}>
             <SafeAreaView>
-                <View style={{ height: 55, backgroundColor: primaryColor, alignItems: "center" }}>
-                    <Text style={{ fontSize: 24, color: 'white', fontWeight: 'bold' }}>LAK.LK</Text>
-                    <Text style={{ fontSize: 12, color: 'white', }}>7248 results</Text>
-                </View>
+
+                <Header
+                    placement="center"
+                    backgroundColor="#7D86F5"
+                    centerComponent={<View style={{ height: 35, backgroundColor: primaryColor, alignItems: "center" }}>
+                        <Text style={{ fontSize: 24, color: 'white', fontWeight: 'bold', marginTop:-10 }}>LAK.LK</Text>
+                        <Text style={{ fontSize: 12, color: 'white', }}>7248 results</Text>
+                    </View>}
+                />
                 <View style={{
                     flexDirection: "row",
                     justifyContent: 'space-between',
@@ -90,8 +103,8 @@ function HomeScreen({ navigation }) {
                     itemDimension={130}
                     data={cardData}
                     renderItem={({ item }) => (
-                        <Pressable onPress={() => { navigation.navigate('PostCategory') }}>
-                            <Card //function  using the data in the listing
+                        <Pressable onPress={() => { navigation.navigate('PostAd1') }}>
+                            <Card
                                 style={{
                                     margin: 0,
                                     padding: 10
@@ -103,9 +116,10 @@ function HomeScreen({ navigation }) {
                                     marginTop: -10
                                 }}>
                                     <Image style={{
+                                        resizeMode: 'contain',
                                         alignItems: 'center',
                                         borderRadius: 10
-                                    }} source={{ uri: "https://picsum.photos/200", width: 160, height: 160 }} />
+                                    }} source={{ uri: item.uri, width: 160, height: 160 }} />
                                 </Card.Content>
                                 <Card.Title style={{
                                     marginTop: -10,
