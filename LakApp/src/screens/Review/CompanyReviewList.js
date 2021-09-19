@@ -4,7 +4,7 @@ import { StyleSheet, View, Text,Image ,Dimensions , SafeAreaView, ScrollView,Tou
 import Star from 'react-native-star-view';
 import { Card, ListItem, } from 'react-native-elements'
 import { Avatar } from 'react-native-paper';
-// import GiveFeedbackModel from './GiveFeedbackModel';
+import GiveFeedbackModel from './GiveFeedbackModel';
 
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -201,7 +201,7 @@ const CompanyReviewList = ({ navigation }) => {
                   
                 </View>
                 
-                {/* <GiveFeedbackModel/> */}
+                <GiveFeedbackModel/>
 
 
 
