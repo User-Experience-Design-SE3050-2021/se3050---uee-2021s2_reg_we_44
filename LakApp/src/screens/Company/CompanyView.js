@@ -4,6 +4,7 @@ import { StyleSheet, View, Text ,Dimensions , SafeAreaView, ScrollView,Touchable
 import Carousel from './Carsousel/Carsousel';
 import { carouselData } from './Carsousel/CarsouselData';
 import CompanyReviewList from '../Review/CompanyReviewList';
+import TopNav from '../Review/TopNav';
 import Star from 'react-native-star-view';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -18,14 +19,14 @@ const {width , height} = Dimensions.get("window")
 const styles = StyleSheet.create({
     Bodycontainer:{
         backgroundColor:'#F6F6F9',
-        marginTop:40
+        marginTop:0
     },
     scrollView:{
         
     },
     container: {
       width:width,
-      height: height * 2,
+      height: height +600,
       borderTopRightRadius:30,
       borderTopLeftRadius:30,
       backgroundColor:'#FFFFFF',
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
        
     },
     CompanyBtn:{
-        width:164,
+        width:160,
         height:55,
         borderRadius:10,
         justifyContent: 'center',
@@ -115,11 +116,13 @@ const styles = StyleSheet.create({
         shadowColor: "black",
         shadowRadius: 10,
         shadowOpacity: 0.5,
+        
+    },
+    CompanyBtnTxt:{
         color:"#F6F6F9",
         fontFamily: 'Raleway-Bold',
         fontWeight:"700",
         fontSize:18,
-        textTransform: 'none'
     },
     hrLine:{
          width:268,
@@ -195,9 +198,14 @@ const styles = StyleSheet.create({
     }
   })
   
-const CompanyView = ({ navigation }) => (
+const CompanyView = ({ navigation }) => {
+
+ 
+return(
 
    <View style = {styles.Bodycontainer}>
+
+       <TopNav navigation={navigation}  Navtitle={"Burger Palace"}  NavBarColor="#F6F6F9"  NavBarFontColor="black"/>
 
            <ScrollView style={styles.scrollView}>  
                 <Carousel data= {carouselData}/>
@@ -220,12 +228,12 @@ const CompanyView = ({ navigation }) => (
                             </View> 
 
                             <View style = {styles.CompanyBtnView}>
-                                    <Button style = {styles.CompanyBtn} mode="contained" onPress={() => navigation.navigate('EmptyReviews')}>
-                                       Call Now
+                                    <Button uppercase={false} style = {styles.CompanyBtn} mode="contained" onPress={() => navigation.navigate('EmptyReviews')}>
+                                    <Text style={styles.CompanyBtnTxt}>Call Now</Text>
                                     </Button>
                                     
-                                    <Button style = {styles.CompanyBtn}   mode="contained" onPress={() => navigation.navigate('NoInternet')} >
-                                     Find Us
+                                    <Button uppercase={false} style = {styles.CompanyBtn}   mode="contained" onPress={() => navigation.navigate('NoInternet')} >
+                                    <Text style={styles.CompanyBtnTxt}>Find Us</Text>
                                     </Button>  
 
                                  
@@ -267,9 +275,6 @@ const CompanyView = ({ navigation }) => (
    </View>
 
 
-
-
-
-);
+)}
 
 export default CompanyView;
