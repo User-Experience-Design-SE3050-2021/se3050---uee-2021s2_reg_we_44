@@ -5,17 +5,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header } from 'react-native-elements';
 import HomeScreen from './ads/HomeScreen';
-import AccountScreen from './account/AccountScreen';
 import PostAdCategoryScreen from './ads/PostAdCategory';
+import { Button } from 'react-native-paper';
 
 var primaryColor = '#7D86F5'
 var lightColor = '#CFD4FF'
 
 
-function SettingsScreen() {
+function SettingsScreen({navigation}) {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Settings!</Text>
+            <Button mode="contained" onPress={() => navigation.navigate('CompanyAddForm')}>
+                Add New Company
+            </Button>
+            <Button style={{marginTop:20 }} icon="" mode="contained" onPress={() => navigation.navigate('CompanyView')}>
+                 Company Advertisement 
+            </Button>
         </View>
     );
 }
@@ -35,13 +40,24 @@ function MainScreen({ navigation }) {
     );
 }
 
-function ChatScreen({ navigation }) {
+function ChatScreen() {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Chat Screen</Text>
-            {/* <Button mode="contained" onPress={() => navigation.navigate('PostAd')}>
-                Post Ad
-            </Button> */}
+        </View>
+    );
+}
+
+function PersonScreen({navigation}) {
+    return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+           
+            <Button mode="contained" onPress={() => navigation.navigate('CompanyAddForm')}>
+                My Companies
+            </Button>
+            <Button style={{marginTop:20 }} icon="" mode="contained" onPress={() => navigation.navigate('MyReviewList')}>
+                 My Reviews
+            </Button>
         </View>
     );
 }
@@ -186,7 +202,7 @@ function TabScreen() {
                 }
             })} />
 
-            <Tab.Screen name="Person" component={AccountScreen} options={{
+            <Tab.Screen name="Person" component={PersonScreen} options={{
                  headerShown: false,
                 headerTitleAlign: 'center',
                 headerTitleStyle: [{

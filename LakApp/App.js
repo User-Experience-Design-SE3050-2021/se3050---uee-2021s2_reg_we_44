@@ -2,22 +2,83 @@ import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabScreen from "./src/screens/Tab";
-import AdFormScreen from "./src/screens/ads/AdFormScreen";
-import SignIn from "./src/screens/account/SignIn";
-import AdsImageScreen from "./src/screens/ads/AddImageScreen";
-import ProfileScreen from "./src/screens/account/ProfileScreen";
+import PostAdCategoryScreen from "./src/screens/ads/PostAdCategory";
+import CompanyAddForm from "./src/screens/Company/CompanyAddForm"
+import CompanyView from "./src/screens/Company/CompanyView";
+import MyReviewList from "./src/screens/Review/MyReviewList";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"SignIn"}>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"Home"}>
         <Stack.Screen name="Home" component={TabScreen}></Stack.Screen>
-        <Stack.Screen name="SignIn" component={SignIn}></Stack.Screen>
-        <Stack.Screen name="PostAd" component={AdFormScreen}></Stack.Screen>
-        <Stack.Screen name="PostImage" component={AdsImageScreen}></Stack.Screen>
-        <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
+        <Stack.Screen
+          options={{
+            title: 'vdvd',
+            headerStyle: {
+              backgroundColor: '#5956E9',
+              elevation: 0,
+              shadowOpacity: 0,
+
+            },
+            headerTintColor: '#000',
+            headerTitleStyle: {
+              fontWeight: '700',
+              fontSize: 20,
+              headerShadowVisible: false,
+              textAlign: "left",
+              fontFamily: "Raleway-Bold"
+            },
+          }}
+          name="CompanyAddForm" component={CompanyAddForm} />
+
+
+<Stack.Screen
+      options={{
+      title: 'Burger Palace "Colombo 03"',
+      headerStyle: {
+      backgroundColor: '#F6F6F9',
+      elevation: 0,
+      shadowOpacity: 0,
+
+    },
+      headerTintColor: '#000',
+      headerTitleStyle: {
+      fontWeight: '700',
+      fontSize: 20,
+      headerShadowVisible: false,
+      textAlign: "left",
+      fontFamily: "Raleway-Bold"
+    },
+    }}
+
+      name="CompanyView" component={CompanyView} />
+
+
+
+<Stack.Screen
+      options={{
+      title: 'My Reviews',
+      headerStyle: {
+      backgroundColor: '#F6F6F9',
+      elevation: 0,
+      shadowOpacity: 0,
+
+    },
+      headerTintColor: '#000',
+      headerTitleStyle: {
+      fontWeight: '700',
+      fontSize: 20,
+      headerShadowVisible: false,
+      textAlign: "left",
+      fontFamily: "Raleway-Bold"
+    },
+    }}
+
+      name="MyReviewList" component={MyReviewList} />
+
       </Stack.Navigator>
     </NavigationContainer>
   )

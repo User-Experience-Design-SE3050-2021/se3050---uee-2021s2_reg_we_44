@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Header, Text } from 'react-native-elements';
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import CategoryCard from '../../component/CategoryCard';
 import { FlatGrid } from 'react-native-super-grid';
 import Icon from "react-native-vector-icons/Ionicons";
@@ -9,43 +9,38 @@ import Icon from "react-native-vector-icons/Ionicons";
 let data = [
     {
         icon: "car",
-        title:"Vehicle",
         text: "Car"
     },
     {
         icon: "bicycle",
-        title:"Vehicle",
         text: "Bicycle"
     },
     {
         icon: "phone-portrait-outline",
-        title:"Electronic",
         text: "Mobile Phone"
     },
     {
         icon: "home",
-        title: "Property",
         text: "Property"
     },
     {
         icon: "shirt",
-        title: "Fashion & Beauty",
         text: "Fashion"
     },
     {
         icon: "american-football",
-        title: "Hobby, Sport & Kids",
         text: "Sports"
     },
 ]
 
-function PostCategoryScreen({navigation}) {
+function PostCategoryScreen() {
     return (
         <SafeAreaProvider>
             <Header
-                placement="center"
+                placement="left"
                 backgroundColor="#7D86F5"
-                centerComponent={{ text: 'Post an Ad ', style: { color: '#fff', fontSize: 22 } }}
+                leftComponent={{ icon: 'arrow-back', color: '#fff', size: 30 }}
+                centerComponent={{ text: 'Post Ad ', style: { color: '#fff', fontSize: 22 } }}
             />
             <View style={styles.body}>
                 <Text style={{ fontSize: 16, fontWeight: "400" }}>Welcome Kamal Perera!</Text>
@@ -55,7 +50,7 @@ function PostCategoryScreen({navigation}) {
                     itemDimension={80}
                     data={data}
                     style={styles.gridView}
-                    renderItem={({ item }) => (<Pressable onPress={()=>{navigation.navigate('PostAd',{icon:item.icon, text:item.text, title:item.title})}}><CategoryCard icon={item.icon} text={item.text} /></Pressable>)}
+                    renderItem={({ item }) => (<CategoryCard icon={item.icon} text={item.text} />)}
                 />
 
                 <View style={styles.box}>
