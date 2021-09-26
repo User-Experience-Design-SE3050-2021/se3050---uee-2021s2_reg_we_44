@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header } from 'react-native-elements';
 import HomeScreen from './ads/HomeScreen';
+import AccountScreen from './account/AccountScreen';
 import PostAdCategoryScreen from './ads/PostAdCategory';
 
 var primaryColor = '#7D86F5'
@@ -34,18 +35,13 @@ function MainScreen({ navigation }) {
     );
 }
 
-function ChatScreen() {
+function ChatScreen({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Chat Screen</Text>
-        </View>
-    );
-}
-
-function PersonScreen() {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Person Screen</Text>
+            {/* <Button mode="contained" onPress={() => navigation.navigate('PostAd')}>
+                Post Ad
+            </Button> */}
         </View>
     );
 }
@@ -190,7 +186,7 @@ function TabScreen() {
                 }
             })} />
 
-            <Tab.Screen name="Person" component={PersonScreen} options={{
+            <Tab.Screen name="Person" component={AccountScreen} options={{
                  headerShown: false,
                 headerTitleAlign: 'center',
                 headerTitleStyle: [{
