@@ -7,6 +7,7 @@ import { Header } from 'react-native-elements';
 import HomeScreen from './ads/HomeScreen';
 import PostAdCategoryScreen from './ads/PostAdCategory';
 import { Button } from 'react-native-paper';
+import CompanyList from "./Company/CompanyList";
 
 var primaryColor = '#7D86F5'
 var lightColor = '#CFD4FF'
@@ -14,13 +15,8 @@ var lightColor = '#CFD4FF'
 
 function SettingsScreen({navigation}) {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Button mode="contained" onPress={() => navigation.navigate('CompanyAddForm')}>
-                Add New Company
-            </Button>
-            <Button style={{marginTop:20 }} icon="" mode="contained" onPress={() => navigation.navigate('CompanyView')}>
-                 Company Advertisement 
-            </Button>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' ,backgroundColor:'#f9f9f9'}}>
+             <CompanyList navigation={navigation}/>
         </View>
     );
 }
