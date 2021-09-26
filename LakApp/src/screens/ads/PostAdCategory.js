@@ -1,167 +1,97 @@
-import * as React from 'react';
-import { View, Text, Image, Animated, Dimensions, FlatList, SafeAreaView, ScrollView, StyleSheet, Pressable, } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Card, IconButton, Searchbar } from 'react-native-paper';
+import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Header, Text } from 'react-native-elements';
+import { View, StyleSheet, Pressable } from 'react-native';
+import CategoryCard from '../../component/CategoryCard';
 import { FlatGrid } from 'react-native-super-grid';
-import { Header } from 'react-native-elements';
+import Icon from "react-native-vector-icons/Ionicons";
 
-var cardData = [{
-    name: 'Toyota CHR',
-    address: 'Galle, Galle',
-    uri: "https://cdn.jdpower.com/JDPA_2020%20Toyota%20C-HR%20Limited%20Blue%20Front%20View.jpg",
-    price: '8,500,000',
-    updated: '1 week ago'
-}, {
-    name: 'Toyota Vitz',
-    address: 'Galle, Galle',
-    uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/2008_Toyota_Vitz_02.jpg/1200px-2008_Toyota_Vitz_02.jpg",
-    price: '3,500,000',
-    updated: '1 week ago'
-}, {
-    name: 'Toyota Premio',
-    address: 'Galle, Galle',
-    uri: "https://importdirect.lk/wp-content/uploads/2020/03/20190712_162124.jpg",
-    price: '9,500,000',
-    updated: '1 week ago'
-}, {
-    name: 'Discovery Sport',
-    address: 'Galle, Galle',
-    uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2021-land-rover-discovery-r-dynamic-103-1604948700.jpg?crop=0.806xw:0.906xh;0.117xw,0.0938xh&resize=640:*",
-    price: '13,500,000',
-    updated: '1 week ago'
-}, {
-    name: 'Toyota CHR',
-    address: 'Galle, Galle',
-    uri: "https://cdn.jdpower.com/JDPA_2020%20Toyota%20C-HR%20Limited%20Blue%20Front%20View.jpg",
-    price: '8,500,000',
-    updated: '1 week ago'
-}, {
-    name: 'Toyota Vitz',
-    address: 'Galle, Galle',
-    uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/2008_Toyota_Vitz_02.jpg/1200px-2008_Toyota_Vitz_02.jpg",
-    price: '3,500,000',
-    updated: '1 week ago'
-}, {
-    name: 'Toyota Premio',
-    address: 'Galle, Galle',
-    uri: "https://importdirect.lk/wp-content/uploads/2020/03/20190712_162124.jpg",
-    price: '9,500,000',
-    updated: '1 week ago'
-}, {
-    name: 'Discovery Sport',
-    address: 'Galle, Galle',
-    uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2021-land-rover-discovery-r-dynamic-103-1604948700.jpg?crop=0.806xw:0.906xh;0.117xw,0.0938xh&resize=640:*",
-    price: '13,500,000',
-    updated: '1 week ago'
-}]
+let data = [
+    {
+        icon: "car",
+        title:"Vehicle",
+        text: "Car"
+    },
+    {
+        icon: "bicycle",
+        title:"Vehicle",
+        text: "Bicycle"
+    },
+    {
+        icon: "phone-portrait-outline",
+        title:"Electronic",
+        text: "Mobile Phone"
+    },
+    {
+        icon: "home",
+        title: "Property",
+        text: "Property"
+    },
+    {
+        icon: "shirt",
+        title: "Fashion & Beauty",
+        text: "Fashion"
+    },
+    {
+        icon: "american-football",
+        title: "Hobby, Sport & Kids",
+        text: "Sports"
+    },
+]
 
-var primaryColor = '#7D86F5'
-var lightColor = '#CFD4FF'
-
-function HomeScreen({ navigation }) {
-    const [searchQuery, setSearchQuery] = React.useState('');
-    const onChangeSearch = query => setSearchQuery(query);
+function PostCategoryScreen({navigation}) {
     return (
-        <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 80 }}>
-            <SafeAreaView>
+        <SafeAreaProvider>
+            <Header
+                placement="center"
+                backgroundColor="#7D86F5"
+                centerComponent={{ text: 'Post an Ad ', style: { color: '#fff', fontSize: 22 } }}
+            />
+            <View style={styles.body}>
+                <Text style={{ fontSize: 16, fontWeight: "400" }}>Welcome Kamal Perera!</Text>
+                <Text>Choose and option bellow to post an ad</Text>
 
-                <Header
-                    placement="center"
-                    backgroundColor="#7D86F5"
-                    centerComponent={<View style={{ height: 35, backgroundColor: primaryColor, alignItems: "center" }}>
-                        <Text style={{ fontSize: 24, color: 'white', fontWeight: 'bold', marginTop:-10 }}>LAK.LK</Text>
-                        <Text style={{ fontSize: 12, color: 'white', }}>7248 results</Text>
-                    </View>}
-                />
-                <View style={{
-                    flexDirection: "row",
-                    justifyContent: 'space-between',
-                    backgroundColor: lightColor,
-                    alignItems: 'stretch'
-                    , alignItems: 'center',
-                }}>
-                    <Searchbar
-                        style={{ margin: 10, marginLeft: 10, borderRadius: 30, height: 35, width: 320 }}
-                        placeholder="Search.."
-                        onChangeText={onChangeSearch}
-                        inputStyle={{ fontSize: 14, }}
-                        value={searchQuery}
-
-                    />
-                    <IconButton
-                        style={{}}
-                        icon='sort-variant'
-                        color={primaryColor}
-                        size={30}
-                        onPress={() => console.log('Pressed')}
-                    />
-                </View>
                 <FlatGrid
-                    scrollEnabled={true}
-                    itemDimension={130}
-                    data={cardData}
-                    renderItem={({ item }) => (
-                        <Pressable onPress={() => { navigation.navigate('PostAd1') }}>
-                            <Card
-                                style={{
-                                    margin: 0,
-                                    padding: 10
-                                }}
-                            >
-                                <Card.Content style={{
-                                    alignItems: 'center',
-                                    borderRadius: 50,
-                                    marginTop: -10
-                                }}>
-                                    <Image style={{
-                                        resizeMode: 'contain',
-                                        alignItems: 'center',
-                                        borderRadius: 10
-                                    }} source={{ uri: item.uri, width: 160, height: 160 }} />
-                                </Card.Content>
-                                <Card.Title style={{
-                                    marginTop: -10,
-                                    marginBottom: -10
-                                }} title={item.name} subtitle={item.address} />
-                                <Text style={{
-                                    marginBottom: -25,
-                                    marginLeft: 15,
-                                    fontSize: 16,
-                                    fontWeight: 'bold'
-                                }} >{'Rs ' + item.price}</Text>
-                                <View style={[styles.container, {
-                                    // Try setting `flexDirection` to `"row"`.
-                                    flexDirection: "row",
-                                    marginBottom: -20,
-                                    alignItems: 'stretch'
-                                }]}>
-                                    <View style={{ flex: 1, marginTop: 10 }} >
-                                        <Ionicons style={{ marginLeft: -5 }} name='time-outline' size={10} color='grey' />
-
-                                    </View>
-                                    <View style={{ flex: 10, marginTop: -20 }} >
-                                        <Card.Title style={{
-                                            marginBottom: -40,
-                                            paddingLeft: -20
-                                        }} subtitle={item.updated} />
-                                    </View>
-                                </View>
-                            </Card>
-                        </Pressable>
-                    )}
+                    itemDimension={80}
+                    data={data}
+                    style={styles.gridView}
+                    renderItem={({ item }) => (<Pressable onPress={()=>{navigation.navigate('PostAd',{icon:item.icon, text:item.text, title:item.title})}}><CategoryCard icon={item.icon} text={item.text} /></Pressable>)}
                 />
-            </SafeAreaView>
-        </View>
+
+                <View style={styles.box}>
+                    <Text>Sell in other categories</Text>
+                    <Icon name="chevron-forward" size={18} />
+                </View>
+                <View style={styles.box}>
+                    <Text>Looking for something else</Text>
+                    <Icon name="chevron-down" size={18} />
+                </View>
+            </View>
+        </SafeAreaProvider>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
+    body: {
+        marginHorizontal: 16,
+        marginVertical: 8
     },
+    box: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        height: 36,
+        paddingLeft: 8,
+        paddingRight: 8,
+        backgroundColor: "#F2F2F2",
+        marginBottom: 12,
+        borderWidth: 0.5,
+        borderColor: "#8C8B8B",
+    },
+    category: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    }
 });
 
-export default HomeScreen;
+export default PostCategoryScreen;
