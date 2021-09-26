@@ -17,7 +17,7 @@ const {width , height} = Dimensions.get("window")
           flexDirection:"row",
           justifyContent:"flex-start",
           alignItems: 'center', //Centered vertically
-          paddingTop:10,
+          paddingTop:20,
           paddingLeft:9,
          
           
