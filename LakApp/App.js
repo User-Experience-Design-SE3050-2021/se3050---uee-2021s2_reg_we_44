@@ -5,6 +5,7 @@ import TabScreen from "./src/screens/Tab";
 import PostAdCategoryScreen from "./src/screens/ads/PostAdCategory";
 import CompanyAddForm from "./src/screens/Company/CompanyAddForm"
 import CompanyView from "./src/screens/Company/CompanyView";
+import MyReviewList from "./src/screens/Review/MyReviewList";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,29 @@ const App = () => {
     }}
 
       name="CompanyView" component={CompanyView} />
+
+
+
+<Stack.Screen
+      options={{
+      title: 'My Reviews',
+      headerStyle: {
+      backgroundColor: '#F6F6F9',
+      elevation: 0,
+      shadowOpacity: 0,
+
+    },
+      headerTintColor: '#000',
+      headerTitleStyle: {
+      fontWeight: '700',
+      fontSize: 20,
+      headerShadowVisible: false,
+      textAlign: "left",
+      fontFamily: "Raleway-Bold"
+    },
+    }}
+
+      name="MyReviewList" component={MyReviewList} />
 
       </Stack.Navigator>
     </NavigationContainer>
