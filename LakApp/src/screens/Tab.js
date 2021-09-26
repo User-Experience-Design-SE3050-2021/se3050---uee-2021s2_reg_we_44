@@ -48,10 +48,16 @@ function ChatScreen() {
     );
 }
 
-function PersonScreen() {
+function PersonScreen({navigation}) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Person Screen</Text>
+           
+            <Button mode="contained" onPress={() => navigation.navigate('CompanyAddForm')}>
+                My Companies
+            </Button>
+            <Button style={{marginTop:20 }} icon="" mode="contained" onPress={() => navigation.navigate('MyReviewList')}>
+                 My Reviews
+            </Button>
         </View>
     );
 }

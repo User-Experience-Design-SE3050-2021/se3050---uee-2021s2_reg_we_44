@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
-    marginTop: 22,
+    marginTop: 0,
    
   },
   modalView: {
