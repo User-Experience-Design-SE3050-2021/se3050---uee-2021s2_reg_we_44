@@ -6,10 +6,11 @@ import { carouselData } from './Carsousel/CarsouselData';
 import CompanyReviewList from '../Review/CompanyReviewList';
 import TopNav from '../Review/TopNav';
 import Star from 'react-native-star-view';
-
+import openMap from 'react-native-open-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Linking} from 'react-native'
 
 
 
@@ -200,7 +201,13 @@ const styles = StyleSheet.create({
   
 const CompanyView = ({ navigation }) => {
 
- 
+    function _goToYosemite() {
+        openMap({ latitude: 6.9077531823245195, longitude:79.85081617861805 });
+      }
+      let phone = '01157985588';
+      function callMobile(){
+        Linking.openURL(`tel:${phone}`)
+      }
 return(
 
    <View style = {styles.Bodycontainer}>
@@ -228,11 +235,11 @@ return(
                             </View> 
 
                             <View style = {styles.CompanyBtnView}>
-                                    <Button uppercase={false} style = {styles.CompanyBtn} mode="contained" onPress={() => navigation.navigate('EmptyReviews')}>
+                                    <Button uppercase={false} style = {styles.CompanyBtn} mode="contained" onPress={() => callMobile()}>
                                     <Text style={styles.CompanyBtnTxt}>Call Now</Text>
                                     </Button>
                                     
-                                    <Button uppercase={false} style = {styles.CompanyBtn}   mode="contained" onPress={() => navigation.navigate('NoInternet')} >
+                                    <Button uppercase={false} style = {styles.CompanyBtn}   mode="contained" onPress={() => _goToYosemite()} >
                                     <Text style={styles.CompanyBtnTxt}>Find Us</Text>
                                     </Button>  
 
