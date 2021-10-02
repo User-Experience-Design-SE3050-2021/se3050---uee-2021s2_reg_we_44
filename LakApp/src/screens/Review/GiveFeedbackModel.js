@@ -3,15 +3,19 @@ import { Alert,SafeAreaView, Modal, StyleSheet,StatusBar,Dimensions, TextInput ,
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox'; 
+import api from "../../api";
+import { TableRow } from "@mui/material";
+
 
 const {width , height} = Dimensions.get("window")
 
-const GiveFeedbackModel = () => {
+const GiveFeedbackModel = ({toggle,setToggle}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = React.useState("");
   const [CheckBtn, SetCheckBtn] = React.useState(false);
   const [starName, setStarName] = React.useState(["star","star","star","star","star-o"]);
-
+  const [description, SetDescription] = React.useState("");
+  const [rating, SetRating] = React.useState(4);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -20,26 +24,51 @@ const GiveFeedbackModel = () => {
 
 
  const onStarRatingPress =(rating) => {
-    console.log(starName[1])
+   let startCount=0;
+    
     for (let i=0;i<5;i++){
         if(i<=rating){
             array[i]="star"
+            startCount++
+            console.log(startCount)
         }else{
             array[i]="star-o"
         }
     }
     setStarName(array);
+    SetRating(startCount)
   }
 
   const onCheckBtnPress =(res) => {
-    console.log(res)
     SetCheckBtn(!CheckBtn)
-    
   }
 
   useEffect(() => {
     
   }, [starName]);
+
+  const FeedbackSubmit=()=>{
+
+    const feedback ={
+      userName: "Christina Aguilera",
+      description:description ,
+      rating: rating,
+      anonymous: CheckBtn
+    }
+    
+    api.post('/feedback/create/', feedback).then(function (response) {
+      if (response.data.message) {
+          alert.info(response.data.message);
+      }
+      SetDescription("")
+      setModalVisible(!modalVisible);
+      setToggle(!toggle)
+      })
+      .catch(function (error) {
+          console.log(error);
+          
+      })
+  }
 
   return (
   
@@ -65,7 +94,6 @@ const GiveFeedbackModel = () => {
                 <Pressable
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => setModalVisible(!modalVisible)} >
-                     {/* <Text style={styles.textStyle}>Hide Modal</Text> */}
                     <Ionicons style={styles.ModalCloseIcon} name="ios-close"/>
                 </Pressable>
               </View>
@@ -75,11 +103,10 @@ const GiveFeedbackModel = () => {
                     <Text style={styles.InputLable}>Name</Text> 
                     
                     </View>
-                    {/* <TextInput style={styles.InputName} onChangeText={onChangeText}   placeholder="Name" /> */}
                     <Text style={styles.NameLable}>Arina Heliex</Text> 
 
                     <Text style={styles.InputLable}>Description</Text>
-                    <TextInput style={styles.InputDesc} onChangeText={onChangeText}   placeholder="Don't be shy, tell us more" multiline={true} numberOfLines={5} />
+                    <TextInput style={styles.InputDesc} onChangeText={SetDescription}   placeholder="Don't be shy, tell us more" multiline={true} numberOfLines={5} />
                 
                     <Text style={styles.InputLable}>Rating</Text>
                     
@@ -111,7 +138,7 @@ const GiveFeedbackModel = () => {
 
                 <Pressable
                     style={styles.SaveButton}
-                    onPress={() => console.log('Pressed')} >
+                    onPress={() => FeedbackSubmit()} >
                      <Ionicons style={styles.SaveIcon} name="ios-add-circle-outline" />
                      <Text style={styles.SaveBtnText}>ADD FEEDBACK</Text>
                 </Pressable>
@@ -123,11 +150,6 @@ const GiveFeedbackModel = () => {
       </Modal>
 
 
-
-      {/* <Pressable
-        style={[styles.button, styles.buttonOpen]} onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable> */}
 
 
       <TouchableHighlight underlayColor="transparent" onPress={() => setModalVisible(true)} style={styles.AddReviewBtn}>

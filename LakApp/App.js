@@ -8,6 +8,7 @@ import CompanyView from "./src/screens/Company/CompanyView";
 import MyReviewList from "./src/screens/Review/MyReviewList";
 import MyCompanies from "./src/screens/Company/MyCompanies";
 import CompanyUpdateForm from "./src/screens/Company/CompanyUpdateForm";
+import GiveFeedbackModel from "./src/screens/Review/GiveFeedbackModel";
 
 const Stack = createNativeStackNavigator();
 
@@ -122,6 +123,8 @@ const App = () => {
     }}
 
       name="CompanyUpdateForm" component={CompanyUpdateForm} />
+
+<Stack.Screen name="feedback" component={GiveFeedbackModel}  headerShadowVisible="false" />
 
       </Stack.Navigator>
       
