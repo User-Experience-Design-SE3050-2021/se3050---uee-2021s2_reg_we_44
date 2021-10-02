@@ -11,7 +11,9 @@ import GiveFeedbackModel from "./src/screens/Review/GiveFeedbackModel";
 import AdFormScreen from "./src/screens/ads/AdFormScreen";
 import SignIn from "./src/screens/account/SignIn";
 import AdsImageScreen from "./src/screens/ads/AddImageScreen";
+import DetailScreen from "./src/screens/ads/DetailsScreen";
 import ProfileScreen from "./src/screens/account/ProfileScreen";
+import MyAdsScreen from "./src/screens/ads/MyAdsScreenj";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +26,8 @@ const App = () => {
         <Stack.Screen name="PostAd" component={AdFormScreen}></Stack.Screen>
         <Stack.Screen name="PostImage" component={AdsImageScreen}></Stack.Screen>
         <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
+        <Stack.Screen name="Details" component={DetailScreen}></Stack.Screen>
+        <Stack.Screen name="MyAds" component={MyAdsScreen}></Stack.Screen>
         <Stack.Screen
           options={{
             title: 'Company Add',
