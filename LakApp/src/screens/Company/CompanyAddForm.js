@@ -13,6 +13,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Fumi } from 'react-native-textinput-effects';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Kohana } from 'react-native-textinput-effects';
+
 import {
     Dimensions ,
     Alert, 
@@ -79,7 +80,6 @@ const styles = StyleSheet.create({
         fontSize: 40,
         marginTop:40,
         color: '#fff',
-    
       },
       sectionContainer: {
         marginTop: 32,
@@ -269,14 +269,13 @@ const CompanyAddForm = ({ navigation }) => {
     return(
       
     <SafeAreaProvider style={backgroundStyle}>
-      
-        <StatusBar backgroundColor={'#5956E9'} barStyle={'dark-content'} />
+      <TopNav navigation={navigation}    NavBarColor="#5956E9"  NavBarFontColor="#fff"/>
         <View
             style={{
                 flexDirection: "row",
                 height: 180,
                 padding: 20,
-                marginTop: 0,
+                marginTop: -65,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'
