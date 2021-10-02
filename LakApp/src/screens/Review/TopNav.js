@@ -34,7 +34,7 @@ const {width , height} = Dimensions.get("window")
         },
        
         BackIcon:{
-            color:"#000000",
+            color:NavBarFontColor,
             fontSize:35,
             marginTop:6
           },

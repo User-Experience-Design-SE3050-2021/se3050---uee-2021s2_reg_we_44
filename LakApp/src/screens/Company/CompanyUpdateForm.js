@@ -271,13 +271,13 @@ const CompanyUpdateForm = ({ navigation }) => {
       
     <SafeAreaProvider style={backgroundStyle}>
       
-        <StatusBar backgroundColor={'#5956E9'} barStyle={'dark-content'} />
+      <TopNav navigation={navigation}    NavBarColor="#5956E9"  NavBarFontColor="#fff"/>
         <View
             style={{
                 flexDirection: "row",
                 height: 180,
                 padding: 20,
-                marginTop: 0,
+                marginTop: -65,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'
