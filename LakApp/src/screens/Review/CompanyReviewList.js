@@ -165,20 +165,20 @@ const CompanyReviewList = ({ navigation }) => {
                 <Text style = {styles.ReviewTitle}>User Reviews (2) </Text>
 
 
-                {/* <FacebookLoader  active={activeE} /> */}
+                {/* <FacebookLoader  active={false} /> */}
 
 
                 <View style = {styles.ReviewCard}>
                   <View style = {styles.ReviewCardHeader}>
                     <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri:'https://www.linkpicture.com/q/LPic61503d5b67db4326511614.jpg'}}/>
-                    <Text style = {styles.ReviewerName}>Arina Heliex </Text>
+                    <Text style = {styles.ReviewerName}>Jacob Fran </Text>
                     <Text style = {styles.ReviewDate}>4 Days Ago</Text>
                   </View>
 
                   <Text style = {styles.ReviewDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. </Text>
                 
                   <View style={styles.rating}>
-                                <Star score={3} style={styles.starStyle} />
+                                <Star score={5} style={styles.starStyle} />
                   </View>
 
                   
@@ -190,13 +190,13 @@ const CompanyReviewList = ({ navigation }) => {
                   <View style = {styles.ReviewCardHeader}>
                     <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri : 'https://www.linkpicture.com/q/LPic61503e01c29b21361512192.jpg'}}/>
                     <Text style = {styles.ReviewerName}>Arina Heliex </Text>
-                    <Text style = {styles.ReviewDate}>4 Days Ago</Text>
+                    <Text style = {styles.ReviewDate}>6 Days Ago</Text>
                   </View>
 
                   <Text style = {styles.ReviewDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. </Text>
                 
                   <View style={styles.rating}>
-                                <Star score={3} style={styles.starStyle} />
+                                <Star score={4} style={styles.starStyle} />
                   </View>
 
                   
@@ -206,13 +206,14 @@ const CompanyReviewList = ({ navigation }) => {
                 <View style = {styles.ReviewCard}>
                   <View style = {styles.ReviewCardHeader}>
                     <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri: 'https://www.linkpicture.com/q/LPic61503cf1dfef52018447189.jpg'}}/>
-                    <Text style = {styles.ReviewDate}>4 Days Ago</Text>
+                    <Text style = {styles.ReviewerName}>Alina Juliet </Text>
+                    <Text style = {styles.ReviewDate}>2 Weeks Ago</Text>
                   </View>
 
                   <Text style = {styles.ReviewDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. </Text>
                 
                   <View style={styles.rating}>
-                                <Star score={3} style={styles.starStyle} />
+                                <Star score={4} style={styles.starStyle} />
                   </View>
 
                   
