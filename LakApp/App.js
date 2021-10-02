@@ -6,6 +6,8 @@ import PostAdCategoryScreen from "./src/screens/ads/PostAdCategory";
 import CompanyAddForm from "./src/screens/Company/CompanyAddForm"
 import CompanyView from "./src/screens/Company/CompanyView";
 import MyReviewList from "./src/screens/Review/MyReviewList";
+import MyCompanies from "./src/screens/Company/MyCompanies";
+import CompanyUpdateForm from "./src/screens/Company/CompanyUpdateForm";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +18,7 @@ const App = () => {
         <Stack.Screen name="Home" component={TabScreen}></Stack.Screen>
         <Stack.Screen
           options={{
-            title: 'vdvd',
+            title: 'Company Add',
             headerStyle: {
               backgroundColor: '#5956E9',
               elevation: 0,
@@ -79,7 +81,50 @@ const App = () => {
 
       name="MyReviewList" component={MyReviewList} />
 
+<Stack.Screen
+      options={{
+      title: 'My Companies',
+      headerStyle: {
+      backgroundColor: '#F6F6F9',
+      elevation: 0,
+      shadowOpacity: 0,
+
+    },
+      headerTintColor: '#000',
+      headerTitleStyle: {
+      fontWeight: '700',
+      fontSize: 20,
+      headerShadowVisible: false,
+      textAlign: "left",
+      fontFamily: "Raleway-Bold"
+    },
+    }}
+
+      name="MyCompanies" component={MyCompanies} />
+
+<Stack.Screen
+      options={{
+      title: 'CompanyUpdateForm',
+      headerStyle: {
+      backgroundColor: '#F6F6F9',
+      elevation: 0,
+      shadowOpacity: 0,
+
+    },
+      headerTintColor: '#000',
+      headerTitleStyle: {
+      fontWeight: '700',
+      fontSize: 20,
+      headerShadowVisible: false,
+      textAlign: "left",
+      fontFamily: "Raleway-Bold"
+    },
+    }}
+
+      name="CompanyUpdateForm" component={CompanyUpdateForm} />
+
       </Stack.Navigator>
+      
     </NavigationContainer>
   )
 }

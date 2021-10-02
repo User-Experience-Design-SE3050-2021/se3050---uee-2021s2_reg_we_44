@@ -13,7 +13,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SearchBar } from 'react-native-elements';
 import { style } from '@mui/system';
-
+import TopNav from '../Review/TopNav'
 const {width , height} = Dimensions.get("window")
 
 
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     },
     ReviewerName:{
        fontSize:15,
-       fontFamily: "Raleway-Bold",
+       fontFamily: "Raleway-Regular",
        fontStyle: "normal",
        fontWeight: "700",
        color:"#333333",
@@ -169,9 +169,13 @@ const CompanyList = ({ navigation }) => {
     var lightColor = '#CFD4FF' 
     const[search,setSearch]=useState()
     return(
-        <SafeAreaProvider>
+
+        <View>
+            <TopNav navigation={navigation}  Navtitle={"Company List"}  NavBarColor="#F6F6F9"  NavBarFontColor="black"/>
+             
+
         {/* <StatusBar backgroundColor={'#5956E9'} barStyle={'dark-content'} /> */}
-        <View
+        {/* <View
             style={{
                 backgroundColor: '#f9f9f9',
                 flexDirection: "row",
@@ -186,7 +190,7 @@ const CompanyList = ({ navigation }) => {
             </Text>
 
            
-        </View>
+        </View> */}
         <View style={{
                 flexDirection: "row",
                 justifyContent: 'space-between',
@@ -300,7 +304,7 @@ const CompanyList = ({ navigation }) => {
                 </TouchableHighlight>
             </View>
             
-</SafeAreaProvider>
+</View>
 
     )
 
