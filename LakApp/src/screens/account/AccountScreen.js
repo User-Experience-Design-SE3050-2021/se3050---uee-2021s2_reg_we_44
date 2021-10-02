@@ -15,7 +15,7 @@ const AccountScreen = ({ navigation }) => {
                 <Text style={styles.text2}>Kamal Perera</Text>
             </View>
             <TouchableOpacity style={[styles.button, { marginBottom: 10, marginTop:10, flexDirection:"row" }]}
-                onPress={() => { navigation.navigate('Home') }}
+                onPress={() => { navigation.navigate('MyAds') }}
             >
                 <Icon style={styles.icon} size={30} name="ribbon"></Icon>
                 <Text style={styles.btnText}>My Ads</Text>
