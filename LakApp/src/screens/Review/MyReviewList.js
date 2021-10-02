@@ -6,7 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import TopNav from './TopNav';
-import TabScreen from '../Tab';
+import UpdateFeedbackModel from './UpdateFeedbackModel';
 
 const {width , height} = Dimensions.get("window")
 
@@ -98,27 +98,31 @@ const {width , height} = Dimensions.get("window")
             marginBottom: 12,
             marginLeft:12
           },
-          MyReviewEditBtn:{
-            width:60,
-            alignSelf:"flex-end",
-            height:42,
-            borderRadius:15,
-            backgroundColor:"#458EFC",
-            borderColor:'#458EFC', 
-            borderWidth:1,
-            overflow: 'hidden',
-            shadowColor: "black",
-            shadowRadius: 10,
+          MyReviewBtnFlex:{
             flexDirection:"row",
-            justifyContent:"center",
-            alignItems: 'center',
-            shadowOffset: {width : 0.5,height:0.5},
-            shadowOpacity:0.7,
-            elevation: 6,
-            
-            position:"absolute",
-            right:70
+            justifyContent:"space-between"
           },
+          // MyReviewEditBtn:{
+          //   width:60,
+          //   alignSelf:"flex-end",
+          //   height:42,
+          //   borderRadius:15,
+          //   backgroundColor:"#458EFC",
+          //   borderColor:'#458EFC', 
+          //   borderWidth:1,
+          //   overflow: 'hidden',
+          //   shadowColor: "black",
+          //   shadowRadius: 10,
+          //   flexDirection:"row",
+          //   justifyContent:"center",
+          //   alignItems: 'center',
+          //   shadowOffset: {width : 0.5,height:0.5},
+          //   shadowOpacity:0.7,
+          //   elevation: 6,
+          //   marginRight:5
+            
+           
+          // },
           MyReviewDelBtn:{
             width:60,
             alignSelf:"flex-end",
@@ -137,8 +141,7 @@ const {width , height} = Dimensions.get("window")
             shadowOpacity:0.7,
             elevation: 5,
            
-            position:"absolute",
-           right:0
+          
             
           },
           MyReviewIcon:{
@@ -155,6 +158,7 @@ const {width , height} = Dimensions.get("window")
           },
           ReviewCardFooter:{
             flexDirection:"row",
+            justifyContent:"space-between",
             alignItems:'center',
             marginTop:10
           },
@@ -193,22 +197,18 @@ const {width , height} = Dimensions.get("window")
                 
                 <View style={styles.ReviewCardFooter}>
                   <View style={styles.rating}>
-                                <Star score={3} style={styles.starStyle} />
+                         <Star score={3} style={styles.starStyle} />
                   </View>
 
-                
-                  <Pressable
-                     style={styles.MyReviewEditBtn}
-                     onPress={() => navigation.navigate('MyReviewList')} >
-                     <Feather style={styles.MyReviewIcon} name="edit-3" />
-                     {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
-                  </Pressable>
-                  <Pressable
-                     style={styles.MyReviewDelBtn}
-                     onPress={() => navigation.navigate('MyReviewList')} >
-                     <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
-                     {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
-                  </Pressable>
+                  <View style={styles.MyReviewBtnFlex}>
+                    <UpdateFeedbackModel />
+                      <Pressable
+                        style={styles.MyReviewDelBtn}
+                        onPress={() => navigation.navigate('MyReviewList')} >
+                        <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
+                        {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
+                      </Pressable>
+                    </View>
                   
                   </View>
 
@@ -218,32 +218,58 @@ const {width , height} = Dimensions.get("window")
             <View style = {styles.ReviewCard}>
                   <View style = {styles.ReviewCardHeader}>
                     <FontAwesome style={styles.CompanyIcon} name="building-o" />
-                    <Text style = {styles.ReviewerName}>Arina Heliex </Text>
-                    <Text style = {styles.ReviewDate}>4 Days Ago</Text>
+                    <Text style = {styles.ReviewerName}>Hotel Lemon Tree </Text>
+                    <Text style = {styles.ReviewDate}>2 Weeks Ago</Text>
                   </View>
 
                   <Text style = {styles.ReviewDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. </Text>
                 
                 <View style={styles.ReviewCardFooter}>
                   <View style={styles.rating}>
-                                <Star score={3} style={styles.starStyle} />
+                                <Star score={4} style={styles.starStyle} />
                   </View>
 
-                
-                  <Pressable
-                     style={styles.MyReviewEditBtn}
-                     onPress={() => navigation.navigate('MyReviewList')} >
-                     <Feather style={styles.MyReviewIcon} name="edit-3" />
-                     {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
-                  </Pressable>
-                  <Pressable
-                     style={styles.MyReviewDelBtn}
-                     onPress={() => navigation.navigate('MyReviewList')} >
-                     <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
-                     {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
-                  </Pressable>
-                  
+                    <View style={styles.MyReviewBtnFlex}>
+                    <UpdateFeedbackModel />
+                      <Pressable
+                        style={styles.MyReviewDelBtn}
+                        onPress={() => navigation.navigate('MyReviewList')} >
+                        <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
+                        {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
+                      </Pressable>
+                    </View>
                   </View>
+
+                  
+
+            </View>
+
+            <View style = {styles.ReviewCard}>
+                  <View style = {styles.ReviewCardHeader}>
+                    <FontAwesome style={styles.CompanyIcon} name="building-o" />
+                    <Text style = {styles.ReviewerName}>Coffe Bean </Text>
+                    <Text style = {styles.ReviewDate}>1 Month Ago</Text>
+                  </View>
+
+                  <Text style = {styles.ReviewDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. </Text>
+                
+                <View style={styles.ReviewCardFooter}>
+                  <View style={styles.rating}>
+                                <Star score={5} style={styles.starStyle} />
+                  </View>
+
+                    <View style={styles.MyReviewBtnFlex}>
+                    <UpdateFeedbackModel />
+                      <Pressable
+                        style={styles.MyReviewDelBtn}
+                        onPress={() => navigation.navigate('MyReviewList')} >
+                        <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
+                        {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
+                      </Pressable>
+                    </View>
+                  </View>
+
+                  
 
             </View>
 
