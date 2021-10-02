@@ -9,6 +9,7 @@ import PostAdCategoryScreen from './ads/PostAdCategory';
 import { Button } from 'react-native-paper';
 import CompanyList from "./Company/CompanyList";
 import MyCompanies from "./Company/MyCompanies";
+import AccountScreen from './account/AccountScreen';
 
 var primaryColor = '#7D86F5'
 var lightColor = '#CFD4FF'
@@ -199,7 +200,7 @@ function TabScreen() {
                 }
             })} />
 
-            <Tab.Screen name="Person" component={PersonScreen} options={{
+            <Tab.Screen name="Person" component={AccountScreen} options={{
                  headerShown: false,
                 headerTitleAlign: 'center',
                 headerTitleStyle: [{

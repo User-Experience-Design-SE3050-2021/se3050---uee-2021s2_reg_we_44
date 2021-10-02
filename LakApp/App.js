@@ -2,13 +2,16 @@ import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabScreen from "./src/screens/Tab";
-import PostAdCategoryScreen from "./src/screens/ads/PostAdCategory";
 import CompanyAddForm from "./src/screens/Company/CompanyAddForm"
 import CompanyView from "./src/screens/Company/CompanyView";
 import MyReviewList from "./src/screens/Review/MyReviewList";
 import MyCompanies from "./src/screens/Company/MyCompanies";
 import CompanyUpdateForm from "./src/screens/Company/CompanyUpdateForm";
 import GiveFeedbackModel from "./src/screens/Review/GiveFeedbackModel";
+import AdFormScreen from "./src/screens/ads/AdFormScreen";
+import SignIn from "./src/screens/account/SignIn";
+import AdsImageScreen from "./src/screens/ads/AddImageScreen";
+import ProfileScreen from "./src/screens/account/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +20,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"Home"}>
         <Stack.Screen name="Home" component={TabScreen}></Stack.Screen>
+        <Stack.Screen name="SignIn" component={SignIn}></Stack.Screen>
+        <Stack.Screen name="PostAd" component={AdFormScreen}></Stack.Screen>
+        <Stack.Screen name="PostImage" component={AdsImageScreen}></Stack.Screen>
+        <Stack.Screen name="Profile" component={ProfileScreen}></Stack.Screen>
         <Stack.Screen
           options={{
             title: 'Company Add',
