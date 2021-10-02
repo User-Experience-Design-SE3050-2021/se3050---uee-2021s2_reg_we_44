@@ -13,7 +13,8 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Fumi } from 'react-native-textinput-effects';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Kohana } from 'react-native-textinput-effects';
-
+import { useValidation } from 'react-native-form-validator';
+import api from '../../api';
 import {
     Dimensions ,
     Alert, 
@@ -31,7 +32,8 @@ import {
   View,
   Button,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  ToastAndroid
 } from 'react-native';
 
 
@@ -49,6 +51,10 @@ import TopNav from '../Review/TopNav'
 const {width , height} = Dimensions.get("window")
 
 const styles = StyleSheet.create({
+  errorMsg: {
+    fontFamily: 'Raleway-Semibold',
+    color: "red"
+  },
     input: {
         height: 45,
         marginLeft: 12,
@@ -266,7 +272,65 @@ const CompanyAddForm = ({ navigation }) => {
       });
     }
 
+    const handleSubmit = () => {
+      const company = {
+
+        companyName: cname,
+        address: address,
+        contactNo: number,
+        category: selectedValue,
+        images: [image],
+        description: description,
+      }
+         console.log(company)
+         
+        api.post('/company/create/', company).then(function (response) {
+          console.log(response.data);
+          if (response.data.message) {
+              alert.info(response.data.message);
+          }
+          setModalVisible(true)
+          onChangeCName(null)
+          onChangeAddress(null)
+          onChangeDescription(null)
+          onChangeNumber(null)
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+
+
+}
+
+    const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
+    useValidation({
+      state: { cname, number, address, description },
+    });
+
+    const _onPressButton = () => {
+      if (!cname || !number || !address || !description)
+        ToastAndroid.showWithGravityAndOffset(
+          "Please fill all the fields",
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50
+        );
+      validate({
+        cname: { minlength: 3, },
+        address: {minlength: 3, },
+        number: { numbers: true },
+        description: { minlength: 6 },
+      });
+     handleSubmit()
+    };
+
+    function navigateCompanyList(){
+      navigation.navigate('Business')
+      setModalVisible(!modalVisible)
+    }
     return(
+      
       
     <SafeAreaProvider style={backgroundStyle}>
       <TopNav navigation={navigation}    NavBarColor="#5956E9"  NavBarFontColor="#fff"/>
@@ -317,9 +381,13 @@ const CompanyAddForm = ({ navigation }) => {
             inputStyle={{ color: '#000', fontSize: 18 }}
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeCName}
+            value={cname}
             useNativeDriver
           />
-          
+          {isFieldInError('cname') &&
+          getErrorsInField('cname').map(errorMessage => (
+            <Text style={styles.errorMsg}>Please enter a valid Name</Text>
+          ))}
           <Kohana
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18}}
             label={'Address'}
@@ -332,8 +400,13 @@ const CompanyAddForm = ({ navigation }) => {
             inputStyle={{ color: '#000', fontSize: 18 }}
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeAddress}
+            value={address}
             useNativeDriver
           />
+          {isFieldInError('address') &&
+          getErrorsInField('address').map(errorMessage => (
+            <Text style={styles.errorMsg}>Please enter a valid Address</Text>
+          ))}
    <Kohana
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18 }}
             label={'Contact No'}
@@ -346,9 +419,13 @@ const CompanyAddForm = ({ navigation }) => {
             inputStyle={{ color: '#000', fontSize: 18 }}
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeNumber}
+            value={number}
             useNativeDriver
           />
-            
+            {isFieldInError('number') &&
+          getErrorsInField('number').map(errorMessage => (
+            <Text style={styles.errorMsg}>Please enter a valid Phone Number</Text>
+          ))}
                
                 <Text style={styles.label}>
                     Category
@@ -401,11 +478,15 @@ const CompanyAddForm = ({ navigation }) => {
             inputStyle={{ color: '#000', fontSize: 18 }}
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeDescription}
+            value={description}
             useNativeDriver
           />
-                 
+           {isFieldInError('description') &&
+          getErrorsInField('description').map(errorMessage => (
+            <Text style={styles.errorMsg}>Please enter a valid Description</Text>
+          ))}      
                 
-      <TouchableHighlight underlayColor="transparent"   onPress={() => setModalVisible(true)} style={styles.AddBtn}>
+      <TouchableHighlight underlayColor="transparent"   onPress={() => _onPressButton()} style={styles.AddBtn}>
             
             <View style={styles.AddReviewBtnContainer}>
                         <Ionicons style={styles.FeedbackAddIcon} name="ios-add-circle-outline" />
@@ -415,7 +496,7 @@ const CompanyAddForm = ({ navigation }) => {
 
 
 
-                <View style={styles.centeredView}>
+                <Pressable onPress={() => navigateCompanyList()} style={styles.centeredView}>
                     <Modal
                         animationType="fade"
                         transparent={true}
@@ -429,9 +510,9 @@ const CompanyAddForm = ({ navigation }) => {
                             <View style={{backgroundColor:"rgba(0,0,0,0.8)",height:height}}>
                                 <View style={styles.modalView}>
 
-                                    <Pressable
+                                    <Pressable  onPress={() => navigateCompanyList()} 
 
-                                        onPress={() => setModalVisible(!modalVisible)}
+                                        
                                     >
                                         <ImageBackground
                                             source={{
@@ -454,7 +535,7 @@ const CompanyAddForm = ({ navigation }) => {
                             </View>
                         </View>
                     </Modal>
-                </View>
+                </Pressable>
 
        
 
