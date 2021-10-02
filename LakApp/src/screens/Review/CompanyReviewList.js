@@ -5,6 +5,7 @@ import Star from 'react-native-star-view';
 import { Card, ListItem, } from 'react-native-elements'
 import { Avatar } from 'react-native-paper';
 import GiveFeedbackModel from './GiveFeedbackModel';
+import { FacebookLoader, InstagramLoader } from 'react-native-easy-content-loader';
 
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -15,7 +16,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const {width , height} = Dimensions.get("window")
 
 
+
 const styles = StyleSheet.create({
+
     
     ReviewBody:{
         
@@ -26,7 +29,8 @@ const styles = StyleSheet.create({
         fontWeight:"600",
         fontSize:18,
         color:"#000000",
-        marginLeft:12
+        marginLeft:12,
+        marginBottom:10
 
     },
     AddReviewBtn:{
@@ -83,6 +87,7 @@ const styles = StyleSheet.create({
         shadowOpacity:0.5,
         shadowRadius:3,
         elevation: 6,
+       
     },
     ReviewCardHeader:{
         flexDirection:"row",
@@ -145,14 +150,27 @@ const styles = StyleSheet.create({
 const CompanyReviewList = ({ navigation }) => {
     
     
+    
+    const [activeE, SetActive] = React.useState(true);
+    
+    setTimeout(() => SetActive(false), 1000)
+
+        React.useEffect(() => {
+            
+        }, []);
+    
     return(
              <View style = {styles.ReviewBody}>
                 
                 <Text style = {styles.ReviewTitle}>User Reviews (2) </Text>
 
+
+                {/* <FacebookLoader  active={activeE} /> */}
+
+
                 <View style = {styles.ReviewCard}>
                   <View style = {styles.ReviewCardHeader}>
-                    <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"}}/>
+                    <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri:'https://www.linkpicture.com/q/LPic61503d5b67db4326511614.jpg'}}/>
                     <Text style = {styles.ReviewerName}>Arina Heliex </Text>
                     <Text style = {styles.ReviewDate}>4 Days Ago</Text>
                   </View>
@@ -170,7 +188,7 @@ const CompanyReviewList = ({ navigation }) => {
 
                 <View style = {styles.ReviewCard}>
                   <View style = {styles.ReviewCardHeader}>
-                    <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"}}/>
+                    <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri : 'https://www.linkpicture.com/q/LPic61503e01c29b21361512192.jpg'}}/>
                     <Text style = {styles.ReviewerName}>Arina Heliex </Text>
                     <Text style = {styles.ReviewDate}>4 Days Ago</Text>
                   </View>
@@ -187,8 +205,7 @@ const CompanyReviewList = ({ navigation }) => {
 
                 <View style = {styles.ReviewCard}>
                   <View style = {styles.ReviewCardHeader}>
-                    <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"}}/>
-                    <Text style = {styles.ReviewerName}>Arina Heliex </Text>
+                    <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri: 'https://www.linkpicture.com/q/LPic61503cf1dfef52018447189.jpg'}}/>
                     <Text style = {styles.ReviewDate}>4 Days Ago</Text>
                   </View>
 

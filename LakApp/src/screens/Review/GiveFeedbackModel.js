@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from "react";
-import { Alert,SafeAreaView, Modal, StyleSheet,Switch,Dimensions, TextInput ,Text, Pressable, View,Animated,TouchableHighlight } from "react-native";
+import { Alert,SafeAreaView, Modal, StyleSheet,StatusBar,Dimensions, TextInput ,Text, Pressable, View,Animated,TouchableHighlight } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox'; 
@@ -45,7 +45,8 @@ const GiveFeedbackModel = () => {
   
   <View style={styles.centeredViewMain}>
       
-      
+      { modalVisible ? <StatusBar backgroundColor="rgba(0,0,0,0.5)" barStyle={'light-content'} /> : 
+      <StatusBar backgroundColor={"#F6F6F9"} barStyle={'dark-content'} />}
       <Modal
         animationType="slide"
         transparent={true}
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
-    marginTop: 22,
+    marginTop: 0,
    
   },
   modalView: {
