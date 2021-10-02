@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
     container: {
       width:width,
-      height: height +600,
+      height: height +1500,
       borderTopRightRadius:30,
       borderTopLeftRadius:30,
       backgroundColor:'#FFFFFF',
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         fontWeight:"normal",
         marginLeft:20,
         fontSize:17,
-        tintColor:"#343333",
+        color:"#343333",
         fontFamily: 'Raleway-Regular',
     },
     CompanyLocation:{
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         fontWeight:"normal",
         marginLeft:20,
         fontSize:17,
-        tintColor:"#343333",
+        color:"#343333",
         fontFamily: 'Raleway-Regular',
     },
     CompanyBtnView:{
@@ -242,7 +242,7 @@ return(
                             <View  style = {styles.hrLine} />
 
                             {/* //REVIEW PART */}
-                            <CompanyReviewList/>
+                            <CompanyReviewList navigation={navigation}/>
                             {/* 
                             
 

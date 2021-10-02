@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, {useEffect} from 'react';
 import { Button } from 'react-native-paper';
 import { StyleSheet, View, Text,Image ,Dimensions , SafeAreaView, ScrollView,TouchableHighlight} from 'react-native';
 import Star from 'react-native-star-view';
@@ -6,8 +6,7 @@ import { Card, ListItem, } from 'react-native-elements'
 import { Avatar } from 'react-native-paper';
 import GiveFeedbackModel from './GiveFeedbackModel';
 import { FacebookLoader, InstagramLoader } from 'react-native-easy-content-loader';
-
-
+import api from '../../api';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -99,6 +98,11 @@ const styles = StyleSheet.create({
         shadowOpacity:0.5,
         shadowRadius:3,
         elevation: 4,
+       
+      
+    },
+    ReviewAvatarTxt:{
+        backgroundColor:"#c2c2c2",
     },
     ReviewerName:{
        fontSize:18,
@@ -149,15 +153,25 @@ const styles = StyleSheet.create({
   
 const CompanyReviewList = ({ navigation }) => {
     
-    
+    const [toggle, setToggle] = React.useState(false);
     
     const [activeE, SetActive] = React.useState(true);
+    const [rows, setRows] = React.useState(true);
     
     setTimeout(() => SetActive(false), 1000)
 
-        React.useEffect(() => {
-            
-        }, []);
+useEffect(() => {
+    api.get(`/feedback`)
+      .then((res) => {
+        setRows(res.data);
+        // setIsProgress(false);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+}, [toggle]);
     
     return(
              <View style = {styles.ReviewBody}>
@@ -218,18 +232,40 @@ const CompanyReviewList = ({ navigation }) => {
 
                   
                 </View>
+
+
+                {rows.length > 0 && rows.map((row) => {
                 
-                <GiveFeedbackModel/>
+                    return (
+                  
 
-
-
-
-                    {/* <TouchableHighlight underlayColor="transparent" onPress={() => {}} style={styles.AddReviewBtn}>
-                        <View style={styles.AddReviewBtnContainer}>
-                            <Ionicons style={styles.FeedbackAddIcon} name="ios-add-circle-outline" />
-                            <Text style={styles.AddReviewBtnText}>ADD YOUR FEEDBACK</Text>
+                  <View style = {styles.ReviewCard} key={row._id}>
+                        <View style = {styles.ReviewCardHeader}>
+                        {row.anonymous =="false"? 
+                            <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri : 'https://www.linkpicture.com/q/LPic61503e01c29b21361512192.jpg'}}/>
+                           : <Avatar.Text label={row.userName.substring(0, 2)}  style = {styles.ReviewAvatarTxt}/>}
+                            <Text style = {styles.ReviewerName}>{row.anonymous =="true"? row.userName.substring(0, 2) +"****":row.userName}</Text>
+                            <Text style = {styles.ReviewDate}>6 Days Ago</Text>
                         </View>
-                    </TouchableHighlight> */}
+
+                        <Text style = {styles.ReviewDesc}>{row.description} </Text>
+                        
+                        <View style={styles.rating}>
+                            <Star score={row.rating} style={styles.starStyle} />
+                        </View>
+                  </View>
+                  
+
+                    );
+                  
+                })}
+                
+                <GiveFeedbackModel toggle={toggle}  setToggle={setToggle} />
+
+
+
+
+                   
 
 
             </View>

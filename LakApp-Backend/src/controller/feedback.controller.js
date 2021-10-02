@@ -19,7 +19,7 @@ const createFeedback= async (req, res) => {
 
 //get All Feedback
 const getAllFeedback = async (req, res) => {
-    await Company.find()
+    await Feedback.find()
         .then((data) => {
             res.status(200).send(data);
         })
