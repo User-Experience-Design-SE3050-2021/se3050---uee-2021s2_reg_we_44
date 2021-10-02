@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
         fontFamily: "Raleway-Bold",
         fontSize: 40,
         marginTop:40,
+        textAlign:'center',
         color: '#fff',
     
       },
@@ -230,14 +231,14 @@ const styles = StyleSheet.create({
    },
   })
   
-const CompanyAddForm = ({ navigation }) => {
+const CompanyUpdateForm = ({ navigation }) => {
 
-    const [number, onChangeNumber] = useState(null);
-    const [cname, onChangeCName] = useState(null);
-    const [address, onChangeAddress] = useState(null);
-    const [description, onChangeDescription] = useState(null);
+    const [number, onChangeNumber] = useState("+94 7548156");
+    const [cname, onChangeCName] = useState('Burger Palace');
+    const [address, onChangeAddress] = useState('Colombo 3');
+    const [description, onChangeDescription] = useState('Best Place to buy a Burger');
     const [selectedValue, setSelectedValue] = useState("Restaurant");
-    const [image, setImage] = useState('https://www.linkpicture.com/q/Placeholder.jpg');
+    const [image, setImage] = useState('https://www.linkpicture.com/q/1024.webp');
     const [modalVisible, setModalVisible] = useState(false);
     
     const [visible, setVisible] = useState(false);
@@ -290,7 +291,7 @@ const CompanyAddForm = ({ navigation }) => {
                     
                 </ImageBackground>
             <Text style={styles.baseText}>
-                ADD NEW COMPANY
+                EDIT COMPANY DETAILS
             </Text>
         </View>
         <ScrollView
@@ -319,6 +320,7 @@ const CompanyAddForm = ({ navigation }) => {
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeCName}
             useNativeDriver
+            value={cname}
           />
           
           <Kohana
@@ -334,6 +336,7 @@ const CompanyAddForm = ({ navigation }) => {
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeAddress}
             useNativeDriver
+            value={address}
           />
    <Kohana
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18 }}
@@ -348,6 +351,7 @@ const CompanyAddForm = ({ navigation }) => {
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeNumber}
             useNativeDriver
+            value={number}
           />
             
                
@@ -361,7 +365,7 @@ const CompanyAddForm = ({ navigation }) => {
                     onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                     mode={'dropdown'}
                 >
-                    <Picker.Item style={{ fontSize: 18}} fullWidth label="Restaurant" value="restaurant" />
+                    <Picker.Item style={{ fontSize: 18,fontFamily: 'Raleway-Bold' }} fullWidth label="Restaurant" value="restaurant" />
                     <Picker.Item   style={{ fontSize: 18}}fullWidth label="Hotel" value="hotel" />
                     <Picker.Item  style={{ fontSize: 18}} fullWidth label="Grocery" value="grocery" />
                     <Picker.Item  style={{ fontSize: 18}} fullWidth label="Other" value="other" />
@@ -403,6 +407,7 @@ const CompanyAddForm = ({ navigation }) => {
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeDescription}
             useNativeDriver
+            value={description}
           />
                  
                 
@@ -410,7 +415,7 @@ const CompanyAddForm = ({ navigation }) => {
             
             <View style={styles.AddReviewBtnContainer}>
                         <Ionicons style={styles.FeedbackAddIcon} name="ios-add-circle-outline" />
-                        <Text style={styles.AddReviewBtnText}>ADD NEW</Text>
+                        <Text style={styles.AddReviewBtnText}>UPDATE</Text>
                     </View>
      </TouchableHighlight>
 
@@ -450,7 +455,7 @@ const CompanyAddForm = ({ navigation }) => {
                                         </ImageBackground>
 
                                     </Pressable>
-                                    <Text style={styles.modalText}>You have Succesfully added your company !</Text>
+                                    <Text style={styles.modalText}>You have Succesfully updated your company Details !</Text>
                                 </View>
                             </View>
                         </View>
@@ -482,4 +487,4 @@ const CompanyAddForm = ({ navigation }) => {
 )
                 };
 
-export default CompanyAddForm;
+export default CompanyUpdateForm;
