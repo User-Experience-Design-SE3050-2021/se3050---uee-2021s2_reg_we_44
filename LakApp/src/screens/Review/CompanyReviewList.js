@@ -10,6 +10,7 @@ import api from '../../api';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Propic from '../../assest/Images/avatarPic.png'
 
 
 const {width , height} = Dimensions.get("window")
@@ -97,12 +98,10 @@ const styles = StyleSheet.create({
         shadowOffset: {width : 0.5,height:0.5},
         shadowOpacity:0.5,
         shadowRadius:3,
-        elevation: 4,
-       
-      
+        elevation: 5,
     },
     ReviewAvatarTxt:{
-        backgroundColor:"#c2c2c2",
+        backgroundColor:"#d9d9d9",
     },
     ReviewerName:{
        fontSize:18,
@@ -242,10 +241,10 @@ useEffect(() => {
                   <View style = {styles.ReviewCard} key={row._id}>
                         <View style = {styles.ReviewCardHeader}>
                         {row.anonymous =="false"? 
-                            <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri : 'https://www.linkpicture.com/q/LPic61503e01c29b21361512192.jpg'}}/>
+                            <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri : 'https://www.linkpicture.com/q/LPic61598684dd9041097341415.jpg'}}/>
                            : <Avatar.Text label={row.userName.substring(0, 2)}  style = {styles.ReviewAvatarTxt}/>}
                             <Text style = {styles.ReviewerName}>{row.anonymous =="true"? row.userName.substring(0, 2) +"****":row.userName}</Text>
-                            <Text style = {styles.ReviewDate}>6 Days Ago</Text>
+                            <Text style = {styles.ReviewDate}>Today</Text>
                         </View>
 
                         <Text style = {styles.ReviewDesc}>{row.description} </Text>

@@ -323,7 +323,7 @@ const MyCompanies = ({ navigation }) => {
                                             <Feather style={styles.MyReviewIcon} name="edit-3" />
                                         </Pressable>
 
-                                        <Pressable  onPress={() => navigation.navigate('CompanyUpdateForm')} style={styles.DeleteBtn}>
+                                        <Pressable  onPress={() => navigation.navigate('EmptyCompany')} style={styles.DeleteBtn}>
                                             <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
                                         </Pressable>
                                     </View>
@@ -359,7 +359,7 @@ const MyCompanies = ({ navigation }) => {
                                             <Feather style={styles.MyReviewIcon} name="edit-3" />
                                         </Pressable>
 
-                                        <Pressable  onPress={() => navigation.navigate('CompanyUpdateForm')} style={styles.DeleteBtn}>
+                                        <Pressable  onPress={() => navigation.navigate('EmptyCompany')} style={styles.DeleteBtn}>
                                             <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
                                         </Pressable>
                                     </View>

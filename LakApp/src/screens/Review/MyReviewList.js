@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { StyleSheet, View,ScrollView, Dimensions,Text,Pressable } from 'react-native';
 import Star from 'react-native-star-view';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -7,10 +7,24 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import TopNav from './TopNav';
 import UpdateFeedbackModel from './UpdateFeedbackModel';
+import EmptyReviews from './EmptyReviews';
+import NoInternet from '../Common/NoInternet'
+import NetInfo from "@react-native-community/netinfo";
 
 const {width , height} = Dimensions.get("window")
 
  const MyReviewList = ({navigation}) => {
+  const [IsInternet, setIsInternet] = useState();
+
+  useEffect(() => {
+    NetInfo.fetch().then(state => {
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+      setIsInternet(state.isConnected)
+    });
+  }, [])
+
+
 
 
     
@@ -184,7 +198,8 @@ const {width , height} = Dimensions.get("window")
   return (
     <View style={styles.container}>
         <TopNav  Navtitle={"My Reviews"}  NavBarColor="#F6F6F9"  NavBarFontColor="black" navigation={navigation}/>
-        <Text style={styles.ReviewListTitle}>Reviews You Have Added</Text>
+       {IsInternet ? <View>
+        <Text style={styles.ReviewListTitle} onPress={() => navigation.navigate('EmptyReviews')} >Reviews You Have Added</Text>
         <ScrollView style={styles.scrollView}>  
         <View style = {styles.ReviewCard}>
                   <View style = {styles.ReviewCardHeader}>
@@ -204,7 +219,7 @@ const {width , height} = Dimensions.get("window")
                     <UpdateFeedbackModel />
                       <Pressable
                         style={styles.MyReviewDelBtn}
-                        onPress={() => navigation.navigate('MyReviewList')} >
+                        onPress={() => navigation.navigate('EmptyReviews')} >
                         <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
                         {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
                       </Pressable>
@@ -233,7 +248,7 @@ const {width , height} = Dimensions.get("window")
                     <UpdateFeedbackModel />
                       <Pressable
                         style={styles.MyReviewDelBtn}
-                        onPress={() => navigation.navigate('MyReviewList')} >
+                        onPress={() => navigation.navigate('EmptyReviews')} >
                         <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
                         {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
                       </Pressable>
@@ -275,7 +290,7 @@ const {width , height} = Dimensions.get("window")
 
             
         </ScrollView>
-
+        </View>:<NoInternet setIsInternet={setIsInternet}/>}
     </View>
     
   );

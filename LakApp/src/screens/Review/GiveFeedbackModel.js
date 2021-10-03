@@ -15,6 +15,7 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
   const [CheckBtn, SetCheckBtn] = React.useState(false);
   const [starName, setStarName] = React.useState(["star","star","star","star","star-o"]);
   const [description, SetDescription] = React.useState("");
+  const [companyName, SetCompanyName] = React.useState("Bugar Palace");
   const [rating, SetRating] = React.useState(4);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -53,7 +54,8 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
       userName: "Christina Aguilera",
       description:description ,
       rating: rating,
-      anonymous: CheckBtn
+      anonymous: CheckBtn,
+      companyName:companyName
     }
     
     api.post('/feedback/create/', feedback).then(function (response) {
@@ -103,7 +105,7 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
                     <Text style={styles.InputLable}>Name</Text> 
                     
                     </View>
-                    <Text style={styles.NameLable}>Arina Heliex</Text> 
+                    <Text style={styles.NameLable}>Christina Aguilera</Text> 
 
                     <Text style={styles.InputLable}>Description</Text>
                     <TextInput style={styles.InputDesc} onChangeText={SetDescription}   placeholder="Don't be shy, tell us more" multiline={true} numberOfLines={5} />
@@ -128,7 +130,7 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
                              
                      <Text style={styles.InputLableSmall}>Anonymous</Text>
                      {CheckBtn ? 
-                     <Text style={styles.MsgLable}>Your name will be showed as Ma***</Text>
+                     <Text style={styles.MsgLable}>Your name will be showed as Ch***</Text>
                      : <Text style={styles.MsgLable}></Text>
                      } 
                     </View>
