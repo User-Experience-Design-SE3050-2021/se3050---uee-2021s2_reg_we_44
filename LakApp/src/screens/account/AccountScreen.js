@@ -21,13 +21,13 @@ const AccountScreen = ({ navigation }) => {
                 <Text style={styles.btnText}>My Ads</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, { marginBottom: 10, flexDirection:"row" }]}
-                onPress={() => { navigation.navigate('Home') }}
+                onPress={() => { navigation.navigate('MyCompanies') }}
             >
                 <Icon style={styles.icon} size={30} name="briefcase"></Icon>
                 <Text style={styles.btnText}>My Companies</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, { marginBottom: 10, flexDirection:"row" }]}
-                onPress={() => { navigation.navigate('Home') }}
+                onPress={() => { navigation.navigate('MyReviewList') }}
             >
                 <Icon style={styles.icon} size={30} name="create"></Icon>
                 <Text style={styles.btnText}>My Reviews</Text>
