@@ -1,4 +1,4 @@
-import  React, {useEffect} from 'react';
+import  React, {useEffect, useState} from 'react';
 import { Button } from 'react-native-paper';
 import { StyleSheet, View, Text,Image ,Dimensions , SafeAreaView, ScrollView,TouchableHighlight} from 'react-native';
 import Star from 'react-native-star-view';
@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Propic from '../../assest/Images/avatarPic.png'
+import CalcDate from '../Common/CalcDate';
 
 
 const {width , height} = Dimensions.get("window")
@@ -21,8 +22,7 @@ const styles = StyleSheet.create({
 
     
     ReviewBody:{
-        
-
+     height:height-100
     },
     ReviewTitle:{
         fontFamily: 'Raleway-SemiBold',
@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
         fontSize:18,
         color:"#000000",
         marginLeft:12,
-        marginBottom:10
 
     },
     AddReviewBtn:{
@@ -38,6 +37,7 @@ const styles = StyleSheet.create({
         alignSelf:"flex-end",
         height:52,
         marginRight:20,
+        
         
 
     },
@@ -72,6 +72,10 @@ const styles = StyleSheet.create({
        fontSize:33,
        color:"#343333",
     },
+    fbLoader:{
+      marginLeft:20,
+      marginRight:20
+    },
     ReviewCard:{
         overflow: 'hidden',
         shadowRadius: 10,
@@ -92,7 +96,8 @@ const styles = StyleSheet.create({
     ReviewCardHeader:{
         flexDirection:"row",
         justifyContent:"space-between",
-        alignItems:"center"
+        alignItems:"center",
+        
     },
     ReviewAvatar:{
         shadowOffset: {width : 0.5,height:0.5},
@@ -112,15 +117,15 @@ const styles = StyleSheet.create({
        fontStyle: "normal",
        fontWeight: "700",
        lineHeight: 19,
-       color:"#333333"
-
+       color:"#333333",
+     
     },
     ReviewDate:{
         textAlign: 'right',
         color:"#333333",
         fontFamily:"Raleway-Regular",
         fontSize:13,
-        opacity:0.7
+        opacity:0.7,
     },
     ReviewDesc:{
         fontSize:15,
@@ -138,12 +143,44 @@ const styles = StyleSheet.create({
         marginTop:15,
         alignSelf:"flex-end"
     },
+    ratingNoDesc:{
+      marginTop:-30,
+      alignSelf:"flex-start",
+      marginLeft:80,
+      marginBottom:10
+
+    },
     starStyle : {
         width: 100,
         height: 20,
         marginBottom: 8,
       },
-    
+      ReviewerNameNoDesc:{
+        fontSize:18,
+        textAlign:"left",
+        flex:1,
+        marginLeft:15,
+        fontFamily: "Raleway-Bold",
+        fontStyle: "normal",
+        fontWeight: "700",
+        lineHeight: 19,
+        color:"#333333",
+        marginTop:-30
+      
+ 
+     },
+     ReviewDateNoDesc:{
+         textAlign: 'right',
+         color:"#333333",
+         fontFamily:"Raleway-Regular",
+         fontSize:13,
+         opacity:0.7,
+         marginTop:-35,
+         
+     },
+     Scroll: {
+      paddingBottom:80,
+  }
     
   })
 
@@ -156,14 +193,14 @@ const CompanyReviewList = ({ navigation }) => {
     
     const [activeE, SetActive] = React.useState(true);
     const [rows, setRows] = React.useState(true);
+    const [isLoading,setIsLoading] = useState(true)
     
-    setTimeout(() => SetActive(false), 1000)
 
 useEffect(() => {
     api.get(`/feedback`)
       .then((res) => {
         setRows(res.data);
-        // setIsProgress(false);
+        setIsLoading(false)
        
       })
       .catch((err) => {
@@ -175,13 +212,13 @@ useEffect(() => {
     return(
              <View style = {styles.ReviewBody}>
                 
-                <Text style = {styles.ReviewTitle}>User Reviews (2) </Text>
+                <Text style = {styles.ReviewTitle}>User Reviews ({rows.length}) </Text>
 
+              <GiveFeedbackModel toggle={toggle}  setToggle={setToggle} />
+              {rows.length >0 &&  <ScrollView contentContainerStyle={styles.Scroll} nestedScrollEnabled = {true}>
 
-                {/* <FacebookLoader  active={false} /> */}
-
-
-                <View style = {styles.ReviewCard}>
+                
+                {/* <View style = {styles.ReviewCard}>
                   <View style = {styles.ReviewCardHeader}>
                     <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri:'https://www.linkpicture.com/q/LPic61503d5b67db4326511614.jpg'}}/>
                     <Text style = {styles.ReviewerName}>Jacob Fran </Text>
@@ -230,41 +267,70 @@ useEffect(() => {
                   </View>
 
                   
+                </View> */}
+
+                <View style = {styles.fbLoader}>
+                {isLoading && <FacebookLoader  active />}
+
+                {isLoading && <FacebookLoader  active />}
+
+                {isLoading && <FacebookLoader  active />}
                 </View>
-
-
                 {rows.length > 0 && rows.map((row) => {
                 
                     return (
                   
 
                   <View style = {styles.ReviewCard} key={row._id}>
+                        {row.description ?
+                    <View>
+                      
                         <View style = {styles.ReviewCardHeader}>
                         {row.anonymous =="false"? 
-                            <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri : 'https://www.linkpicture.com/q/LPic61598684dd9041097341415.jpg'}}/>
+                            <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri : 'https://www.linkpicture.com/q/LPic61503e01c29b21361512192.jpg'}}/>
                            : <Avatar.Text label={row.userName.substring(0, 2)}  style = {styles.ReviewAvatarTxt}/>}
                             <Text style = {styles.ReviewerName}>{row.anonymous =="true"? row.userName.substring(0, 2) +"****":row.userName}</Text>
-                            <Text style = {styles.ReviewDate}>Today</Text>
+                            {/* <Text style = {styles.ReviewDate}>Today</Text> */}
+                            <CalcDate  DateC={row.date.split("T", [1]) .pop() .split("-", 3)} StyleS={true} />
                         </View>
-
+                    
                         <Text style = {styles.ReviewDesc}>{row.description} </Text>
                         
                         <View style={styles.rating}>
                             <Star score={row.rating} style={styles.starStyle} />
                         </View>
+                      </View>
+                        :
+                      <View>
+                        <View style = {styles.ReviewCardHeader}>
+                        {row.anonymous =="false"? 
+                            <Avatar.Image  style = {styles.ReviewAvatar} source = {{uri : 'https://www.linkpicture.com/q/LPic61503e01c29b21361512192.jpg'}}/>
+                           : <Avatar.Text label={row.userName.substring(0, 2)}  style = {styles.ReviewAvatarTxt}/>}
+                            <Text style = {styles.ReviewerNameNoDesc}>{row.anonymous =="true"? row.userName.substring(0, 2) +"****":row.userName}</Text>
+                            {/* <Text style = {styles.ReviewDateNoDesc}></Text> */}
+                            <CalcDate  DateC={row.date.split("T", [1]) .pop() .split("-", 3)} StyleS={false} />
+                        </View>
+                        
+                        
+                         
+                        
+                        <View style={styles.ratingNoDesc}>
+                            <Star score={row.rating} style={styles.starStyle} />
+                        </View>
+                      </View>}
                   </View>
+                  
                   
 
                     );
                   
                 })}
+                </ScrollView>}
+
+
+
+
                 
-                <GiveFeedbackModel toggle={toggle}  setToggle={setToggle} />
-
-
-
-
-                   
 
 
             </View>

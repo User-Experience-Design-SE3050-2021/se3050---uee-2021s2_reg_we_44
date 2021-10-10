@@ -10,11 +10,20 @@ import UpdateFeedbackModel from './UpdateFeedbackModel';
 import EmptyReviews from './EmptyReviews';
 import NoInternet from '../Common/NoInternet'
 import NetInfo from "@react-native-community/netinfo";
+import { FacebookLoader, InstagramLoader } from 'react-native-easy-content-loader';
+import CalcDate from '../Common/CalcDate';
+import api from '../../api';
 
 const {width , height} = Dimensions.get("window")
 
  const MyReviewList = ({navigation}) => {
+
+  const [toggle, setToggle] = React.useState(false);
   const [IsInternet, setIsInternet] = useState();
+  const [rows, setRows] = React.useState(true);
+  const [isLoading,setIsLoading] = useState(true)
+  const [IsData, setIsData] = React.useState(true)
+  
 
   useEffect(() => {
     NetInfo.fetch().then(state => {
@@ -26,6 +35,37 @@ const {width , height} = Dimensions.get("window")
 
 
 
+
+useEffect(() => {
+  setIsLoading(true)
+  api.get(`/feedback`)
+    .then((res) => {
+      if(res.data){
+        setRows(res.data);
+        setIsLoading(false)
+      }else{
+        setIsData(false);
+        setIsLoading(false)
+      }
+     
+     
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+}, [IsInternet,toggle]);
+
+const handleDelete =(id)=>{
+  setIsLoading(true)
+  api.delete(`feedback/delete/${id}`)
+  .then((res) => {
+    setIsLoading(false)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
 
     
 
@@ -178,7 +218,6 @@ const {width , height} = Dimensions.get("window")
           },
           ReviewListTitle:{
             textAlign:"left",
-            marginTop:10,
             fontFamily: 'Raleway-SemiBold',
             fontWeight:"600",
             fontSize:17,
@@ -189,107 +228,80 @@ const {width , height} = Dimensions.get("window")
           CompanyIcon:{
             fontSize:30,
             marginBottom:10
-          }
+          },
+          containerBody:{
+            height:height-100,
+            paddingVertical:20
+          },
         
         
       })
       
     
   return (
+    
     <View style={styles.container}>
+      {IsInternet ?
+      <View>
         <TopNav  Navtitle={"My Reviews"}  NavBarColor="#F6F6F9"  NavBarFontColor="black" navigation={navigation}/>
-       {IsInternet ? <View>
-        <Text style={styles.ReviewListTitle} onPress={() => navigation.navigate('EmptyReviews')} >Reviews You Have Added</Text>
-        <ScrollView style={styles.scrollView}>  
-        <View style = {styles.ReviewCard}>
-                  <View style = {styles.ReviewCardHeader}>
-                    <FontAwesome style={styles.CompanyIcon} name="building-o" />
-                    <Text style = {styles.ReviewerName}>Bugar Palace</Text>
-                    <Text style = {styles.ReviewDate}>4 Days Ago</Text>
-                  </View>
+       
 
-                  <Text style = {styles.ReviewDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. </Text>
-                
-                <View style={styles.ReviewCardFooter}>
-                  <View style={styles.rating}>
-                         <Star score={3} style={styles.starStyle} />
-                  </View>
+       
+        <View style={styles.containerBody}>
+        {rows.length > 0 && <Text style={styles.ReviewListTitle} >Reviews You Have Added ({rows.length})</Text>}
+          <View style = {styles.fbLoader}>
+                {isLoading && <FacebookLoader  active />}
 
-                  <View style={styles.MyReviewBtnFlex}>
-                    <UpdateFeedbackModel />
-                      <Pressable
-                        style={styles.MyReviewDelBtn}
-                        onPress={() => navigation.navigate('EmptyReviews')} >
-                        <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
-                        {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
-                      </Pressable>
-                    </View>
-                  
-                  </View>
+                {isLoading && <FacebookLoader  active />}
 
-            </View>
+                {isLoading && <FacebookLoader  active />}
 
-
-            <View style = {styles.ReviewCard}>
-                  <View style = {styles.ReviewCardHeader}>
-                    <FontAwesome style={styles.CompanyIcon} name="building-o" />
-                    <Text style = {styles.ReviewerName}>Hotel Lemon Tree </Text>
-                    <Text style = {styles.ReviewDate}>2 Weeks Ago</Text>
-                  </View>
-
-                  <Text style = {styles.ReviewDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. </Text>
-                
-                <View style={styles.ReviewCardFooter}>
-                  <View style={styles.rating}>
-                                <Star score={4} style={styles.starStyle} />
-                  </View>
-
-                    <View style={styles.MyReviewBtnFlex}>
-                    <UpdateFeedbackModel />
-                      <Pressable
-                        style={styles.MyReviewDelBtn}
-                        onPress={() => navigation.navigate('EmptyReviews')} >
-                        <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
-                        {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
-                      </Pressable>
-                    </View>
-                  </View>
-
-                  
-
-            </View>
-
-            <View style = {styles.ReviewCard}>
-                  <View style = {styles.ReviewCardHeader}>
-                    <FontAwesome style={styles.CompanyIcon} name="building-o" />
-                    <Text style = {styles.ReviewerName}>Coffe Bean </Text>
-                    <Text style = {styles.ReviewDate}>1 Month Ago</Text>
-                  </View>
-
-                  <Text style = {styles.ReviewDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. </Text>
-                
-                <View style={styles.ReviewCardFooter}>
-                  <View style={styles.rating}>
-                                <Star score={5} style={styles.starStyle} />
-                  </View>
-
-                    <View style={styles.MyReviewBtnFlex}>
-                    <UpdateFeedbackModel />
-                      <Pressable
-                        style={styles.MyReviewDelBtn}
-                        onPress={() => navigation.navigate('MyReviewList')} >
-                        <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
-                        {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
-                      </Pressable>
-                    </View>
-                  </View>
-
-                  
-
-            </View>
-
+                {isLoading && <FacebookLoader  active />}
+              </View>
+              {rows.length >0  ?
+            <ScrollView style={styles.scrollView} nestedScrollEnabled = {true}>  
             
-        </ScrollView>
+
+                {rows.length > 0 && rows.map((row) => {
+                
+                return (
+
+                
+                <View style = {styles.ReviewCard} key={row._id}>
+                      <View style = {styles.ReviewCardHeader}>
+                        <FontAwesome style={styles.CompanyIcon} name="building-o" />
+                        <Text style = {styles.ReviewerName}>{row.companyName}</Text>
+                        <CalcDate  DateC={row.date.split("T", [1]) .pop() .split("-", 3)} StyleS={true} />
+                      </View>
+
+                      {row.description !="" && <Text style = {styles.ReviewDesc}>{row.description}</Text>}
+                    
+                    <View style={styles.ReviewCardFooter}>
+                      <View style={styles.rating}>
+                                    <Star score={row.rating} style={styles.starStyle} />
+                      </View>
+
+                        <View style={styles.MyReviewBtnFlex}>
+                        <UpdateFeedbackModel Data={row} toggle={toggle}  setToggle={setToggle}/>
+                          <Pressable
+                            style={styles.MyReviewDelBtn}
+                            onPress={() => handleDelete(row._id)} >
+                            <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
+                            {/* <Text style={styles.TryAgainBtnText}>Try Again</Text> */}
+                          </Pressable>
+                        </View>
+                      </View>
+
+                      
+
+                </View>)})}
+
+               
+
+                
+            </ScrollView>:
+        <EmptyReviews/>}
+        </View>
         </View>:<NoInternet setIsInternet={setIsInternet}/>}
     </View>
     

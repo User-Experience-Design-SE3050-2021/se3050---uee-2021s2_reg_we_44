@@ -6,6 +6,7 @@ const FeedbackSchema = new mongoose.Schema({
     description: { type: String},
     rating: { type: Number, required: true},
     anonymous: { type: String, required: true},
+    date: { type: Date, required: true},
    
 });
 

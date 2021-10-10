@@ -19,7 +19,9 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
   const [rating, SetRating] = React.useState(4);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [addDescVisible, setaddDescVisible] = useState(false);
 
+  const today = new Date()
 
   const array=[5];
 
@@ -55,7 +57,8 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
       description:description ,
       rating: rating,
       anonymous: CheckBtn,
-      companyName:companyName
+      companyName:companyName,
+      date:today
     }
     
     api.post('/feedback/create/', feedback).then(function (response) {
@@ -95,7 +98,7 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
                 <Text style={styles.modalTitle}>Give Feedback</Text>
                 <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)} >
+                    onPress={() => {setModalVisible(!modalVisible) ,setaddDescVisible(!addDescVisible)} } >
                     <Ionicons style={styles.ModalCloseIcon} name="ios-close"/>
                 </Pressable>
               </View>
@@ -106,10 +109,19 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
                     
                     </View>
                     <Text style={styles.NameLable}>Christina Aguilera</Text> 
-
+                  {!addDescVisible ?
+                   <View style={styles.addDescView}>
+                      <Pressable style={styles.addDesc}
+                        onPress={() => setaddDescVisible(!addDescVisible)} >
+                        <Text style={styles.addDescText}>add description</Text>
+                      </Pressable>
+                   </View>
+                    :
+                  <View >
                     <Text style={styles.InputLable}>Description</Text>
                     <TextInput style={styles.InputDesc} onChangeText={SetDescription}   placeholder="Don't be shy, tell us more" multiline={true} numberOfLines={5} />
-                
+                 
+                  </View>}
                     <Text style={styles.InputLable}>Rating</Text>
                     
                     <View style={styles.StarRating} >
@@ -171,7 +183,8 @@ const styles = StyleSheet.create({
         alignSelf:"flex-end",
         height:52,
         marginRight:20,
-        
+        marginTop:20,
+        marginBottom:25
 
     },
     AddReviewBtnContainer:{
@@ -278,8 +291,6 @@ const styles = StyleSheet.create({
     width:230,
     alignSelf:"center",
     height:52,
-    marginRight:20,
-    height:52,
     borderRadius:10,
     margin:8,
     backgroundColor:"#5956E9",
@@ -294,7 +305,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width : 0.5,height:0.5},
     shadowOpacity:0.7,
     elevation: 5,
-    marginTop:10 
+    marginTop:12 
   },
   SaveIcon:{
     color:"#F6F6F9",
@@ -336,6 +347,10 @@ const styles = StyleSheet.create({
     color:"#3C3B3B",
     fontSize:16,
     fontFamily:"Raleway-Meadium",
+  },
+  addDescView:{
+    height: 120,
+    width:width-60,
   },
   InputLable:{
     marginLeft: 12,
@@ -394,7 +409,37 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     lineHeight: 19,
     color:"#333333"
-  }
+  },
+  addDesc:{
+    
+    width:300,
+    alignSelf:"center",
+    height:52,
+    marginRight:20,
+    borderRadius:10,
+    margin:8,
+    borderColor:'#e0e0e0', 
+    borderWidth:1,
+    overflow: 'hidden',
+    shadowColor: "black",
+    shadowRadius: 10,
+    flexDirection:"row",
+    justifyContent:"center",
+    alignItems: 'center',
+    shadowOffset: {width : 0.5,height:0.5},
+    shadowOpacity:0.7,
+    marginTop:30,
+    
+  },
+ 
+  addDescText:{
+    fontFamily: 'Raleway-Regular',
+    fontWeight:"700",
+    fontSize:18,
+    textAlign: 'center',
+    paddingLeft:6,
+    color:"#807d7d",
+  },
 });
 
 export default GiveFeedbackModel;

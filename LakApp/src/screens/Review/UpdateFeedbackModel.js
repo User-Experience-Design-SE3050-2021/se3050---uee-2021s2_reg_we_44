@@ -5,32 +5,55 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox'; 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
+import api from "../../api";
 
 const {width , height} = Dimensions.get("window")
 
-const UpdateFeedbackModel = () => {
+const UpdateFeedbackModel = ({toggle,setToggle,Data}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = React.useState("");
   const [CheckBtn, SetCheckBtn] = React.useState(false);
   const [starName, setStarName] = React.useState(["star","star","star","star","star"]);
-
+  const [description, SetDescription] = React.useState("");
+  const [companyName, SetCompanyName] = React.useState("");
+  const [rating, SetRating] = React.useState();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [addDescVisible, setaddDescVisible] = useState(false);
 
-
+  const today = new Date()
   const array=[5];
 
+useEffect(() => {
+  console.log(Data._id)
+  SetDescription(Data.description)
+  SetCompanyName(Data.companyName)
+  onStarRatingPress(Data.rating  - 1)
+  SetRating(Data.rating)
+  if(Data.anonymous=="true"){
+    SetCheckBtn(true)
+  }else if(Data.anonymous=="false"){
+    SetCheckBtn(false)
+  }
+  if(Data.description){
+    setaddDescVisible(true)
+  }else{
+    setaddDescVisible(false)
+  }
+}, [modalVisible])
 
  const onStarRatingPress =(rating) => {
-    console.log(starName[1])
+  let startCount=0;
     for (let i=0;i<5;i++){
         if(i<=rating){
             array[i]="star"
+            startCount++
         }else{
             array[i]="star-o"
         }
     }
     setStarName(array);
+    SetRating(startCount)
   }
 
   const onCheckBtnPress =(res) => {
@@ -39,9 +62,31 @@ const UpdateFeedbackModel = () => {
     
   }
 
-  useEffect(() => {
+  const FeedbackUpdate=()=>{
+
+    const feedback ={
+      id:Data._id,
+      userName: Data.userName,
+      description:description ,
+      rating: rating,
+      anonymous: CheckBtn,
+      companyName:companyName,
+      date:today
+    }
     
-  }, [starName]);
+    api.put('/feedback/update/', feedback).then(function (response) {
+      if (response.data.message) {
+          alert.info(response.data.message);
+      }
+      setModalVisible(!modalVisible);
+      setToggle(!toggle)
+      })
+      .catch(function (error) {
+          console.log(error);
+          
+      })
+  }
+ 
 
   return (
   
@@ -66,7 +111,7 @@ const UpdateFeedbackModel = () => {
                 <Text style={styles.modalTitle}>Update Feedback</Text>
                 <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)} >
+                    onPress={() => {setModalVisible(!modalVisible) ,setaddDescVisible(!addDescVisible)} } >
                      {/* <Text style={styles.textStyle}>Hide Modal</Text> */}
                     <Ionicons style={styles.ModalCloseIcon} name="ios-close"/>
                 </Pressable>
@@ -77,17 +122,26 @@ const UpdateFeedbackModel = () => {
                     <Text style={styles.InputLable}>Name</Text> 
                     
                     </View>
-                    {/* <TextInput style={styles.InputName} onChangeText={onChangeText}   placeholder="Name" /> */}
-                    <Text style={styles.NameLable}>Arina Heliex</Text> 
+                    <Text style={styles.NameLable}>{companyName}</Text> 
 
+                    {!addDescVisible ?
+                   <View style={styles.addDescView}>
+                      <Pressable style={styles.addDesc}
+                        onPress={() => setaddDescVisible(!addDescVisible)} >
+                        <Text style={styles.addDescText}>add description</Text>
+                      </Pressable>
+                   </View>
+                    :
+                    <View>
                     <Text style={styles.InputLable}>Description</Text>
-                    <TextInput style={styles.InputDesc} onChangeText={onChangeText}   placeholder="Don't be shy, tell us more" 
-                    value ='Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut.' multiline={true} numberOfLines={5} />
+                    <TextInput style={styles.InputDesc} onChangeText={SetDescription}   placeholder="Don't be shy, tell us more" 
+                    value ={description} multiline={true} numberOfLines={5} />
+                    </View>}
                 
                     <Text style={styles.InputLable}>Rating</Text>
                     
                     <View style={styles.StarRating} >
-                       <FontAwesome style={styles.StarIcon} name={starName[0]}  onPress={() => onStarRatingPress(0)} />
+                       <FontAwesome style={styles.StarIcon} name={starName[0]} onPress={() => onStarRatingPress(0)}/>
                        <FontAwesome style={styles.StarIcon} name={starName[1]} onPress={() => onStarRatingPress(1)}/>
                        <FontAwesome style={styles.StarIcon} name={starName[2]} onPress={() => onStarRatingPress(2)}/>
                        <FontAwesome style={styles.StarIcon} name={starName[3]} onPress={() => onStarRatingPress(3)}/>
@@ -114,7 +168,7 @@ const UpdateFeedbackModel = () => {
 
                 <Pressable
                     style={styles.SaveButton}
-                    onPress={() => console.log('Pressed')} >
+                    onPress={() => FeedbackUpdate()} >
                      <Ionicons style={styles.SaveIcon} name="ios-add-circle-outline" />
                      <Text style={styles.SaveBtnText}>UPDATE FEEDBACK</Text>
                 </Pressable>
@@ -253,7 +307,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width : 0.5,height:0.5},
     shadowOpacity:0.7,
     elevation: 5,
-    marginTop:10 
+    marginTop:15 
   },
   SaveIcon:{
     color:"#F6F6F9",
@@ -353,7 +407,41 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     lineHeight: 19,
     color:"#333333"
-  }
+  },
+  addDescView:{
+    height: 120,
+    width:width-35,
+  },
+  addDesc:{
+    
+    width:300,
+    alignSelf:"center",
+    height:52,
+    marginRight:20,
+    borderRadius:10,
+    margin:8,
+    borderColor:'#e0e0e0', 
+    borderWidth:1,
+    overflow: 'hidden',
+    shadowColor: "black",
+    shadowRadius: 10,
+    flexDirection:"row",
+    justifyContent:"center",
+    alignItems: 'center',
+    shadowOffset: {width : 0.5,height:0.5},
+    shadowOpacity:0.7,
+    marginTop:30,
+    
+  },
+ 
+  addDescText:{
+    fontFamily: 'Raleway-Regular',
+    fontWeight:"700",
+    fontSize:18,
+    textAlign: 'center',
+    paddingLeft:6,
+    color:"#807d7d",
+  },
 });
 
 export default UpdateFeedbackModel;
