@@ -16,8 +16,9 @@ const {width , height} = Dimensions.get("window")
         container: {
           alignItems: 'center',
           backgroundColor:'#F6F6F9',
-          width:width,
-          height:height
+          width:width-20,
+          height:height,
+          marginTop:50,
         },
         textInput: {
           height: 40,
@@ -26,7 +27,7 @@ const {width , height} = Dimensions.get("window")
           borderWidth: 1,
         },
         image:{
-            width:width-80,
+            width:width,
             height:240,
             marginTop:60
         },
@@ -81,19 +82,19 @@ const {width , height} = Dimensions.get("window")
     
   return (
     <View style={styles.container}>
-        <TopNav navigation={navigation} Navtitle={"My Companies"} NavBarColor="#F6F6F9" NavBarFontColor="black" />
+        {/* <TopNav navigation={navigation} Navtitle={"My Companies"} NavBarColor="#F6F6F9" NavBarFontColor="black" /> */}
         <Image style = {styles.image} source = {NoCompany}/>
         <Text style = {styles.NoreviewTitle}>You haven’t add any company yet</Text>
        
 
-        <View style={styles.AddButton} >
+        {/* <View style={styles.AddButton} >
              <TouchableHighlight underlayColor="transparent" onPress={() => navigation.navigate('CompanyAddForm')} style={styles.AddReviewBtn}>
                 <View style={styles.AddReviewBtnContainer}>
                     <Ionicons style={styles.FeedbackAddIcon} name="ios-add-circle-outline" />
                     <Text style={styles.AddReviewBtnText}>ADD MY COMPNAY</Text>
                 </View>
             </TouchableHighlight>
-        </View>
+        </View> */}
 
     </View>
     
