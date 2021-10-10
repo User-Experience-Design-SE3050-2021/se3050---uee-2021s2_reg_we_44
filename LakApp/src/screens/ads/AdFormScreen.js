@@ -27,6 +27,7 @@ function AdFormScreen({ route,navigation}) {
             <View style={styles.input}>
                 <Text style={{ marginLeft: 8, marginBottom: 5 }}>Title</Text>
                 <TextInput
+                    placeholder="Enter an ad title"
                     style={styles.textInput}
                 />
             </View>
@@ -35,11 +36,13 @@ function AdFormScreen({ route,navigation}) {
                 <TextInput
                     multiline
                     numberOfLines={5}
+                    placeholder="Enter a description"
                     style={{
                         borderColor: 'gray',
                         borderWidth: 1,
                         borderRadius: 5,
-                        backgroundColor:"#fff"
+                        backgroundColor:"#fff",
+                        textAlignVertical: 'top'
                     }}
                 />
             </View>
@@ -53,19 +56,24 @@ function AdFormScreen({ route,navigation}) {
             <View style={styles.input}>
                 <Text style={{ marginLeft: 8, marginBottom: 5 }}>Price</Text>
                 <TextInput
+                    placeholder="Enter an amount"
+                    keyboardType="numeric"
                     style={styles.textInput}
                 />
             </View>
             <View style={styles.input}>
                 <Text style={{ marginLeft: 8, marginBottom: 5 }}>Contact Name</Text>
                 <TextInput
+                 placeholder="Enter a contact name"
                     style={styles.textInput}
                 />
             </View>
             <View style={styles.input}>
                 <Text style={{ marginLeft: 8, marginBottom: 5 }}>Contact No</Text>
                 <TextInput
+                 placeholder="Enter a contact no"
                     style={styles.textInput}
+                    keyboardType="number-pad"
                 />
             </View>
             <TouchableOpacity style={styles.button}
