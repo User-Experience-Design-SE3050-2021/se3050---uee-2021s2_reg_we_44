@@ -31,6 +31,19 @@ const getAllFeedback = async (req, res) => {
 }
 
 
+const getAllFeedbackLastInFirst = async (req, res) => {
+    const mySort={ date: -1 };
+    await Feedback.find().sort(mySort)
+        .then((data) => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).send(error);
+     });
+}
+
+
 //update Feedback with id
 const updateFeedback= async (req, res) => {
     if (req.body) {
@@ -84,5 +97,6 @@ module.exports = {
     createFeedback,
     getAllFeedback,
     deleteFeedback,
-    updateFeedback
+    updateFeedback,
+    getAllFeedbackLastInFirst
 }

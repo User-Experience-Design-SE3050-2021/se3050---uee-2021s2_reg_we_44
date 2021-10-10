@@ -56,7 +56,6 @@ const CalcDate = ({ DateC,StyleS }) => {
   useEffect(() => {
     calculateDays();
     
-  console.log(mmm,ddd,today)
 
   }, []);
 
@@ -75,8 +74,11 @@ const CalcDate = ({ DateC,StyleS }) => {
           <Text style = {styles.ReviewDate}> {Month} months & </Text>
         )}
 
-        {Month == 1 && Year == 0 && (
+        {Month == 1 && Year == 0 && Day > 0 &&  (
           <Text style = {styles.ReviewDate}> {Month} month & </Text>
+        )}
+         {Month == 1 && Year == 0 && Day == 0 && (
+          <Text style = {styles.ReviewDate}> {Month} month Ago </Text>
         )}
 
         {Day > 1 && Year == 0 && (
@@ -87,7 +89,7 @@ const CalcDate = ({ DateC,StyleS }) => {
           <Text style = {styles.ReviewDate}> {Day} day Ago </Text>
         )}
 
-        {Day == 0 && Year == 0 && <Text style = {styles.ReviewDate}> Today </Text> }
+        {Day == 0 && Year == 0 && Month == 0 && <Text style = {styles.ReviewDate}> Today </Text> }
       </View>
 
       :
@@ -104,8 +106,11 @@ const CalcDate = ({ DateC,StyleS }) => {
           <Text style = {styles.ReviewDateNoDesc}> {Month} months & </Text>
         )}
 
-        {Month == 1 && Year == 0 && (
+        {Month == 1 && Year == 0 && Day > 0 && (
           <Text style = {styles.ReviewDateNoDesc}> {Month} month & </Text>
+        )}
+         {Month == 1 && Year == 0 && Day == 0 && (
+          <Text style = {styles.ReviewDate}> {Month} month Ago </Text>
         )}
 
         {Day > 1 && Year == 0 && (
@@ -116,7 +121,7 @@ const CalcDate = ({ DateC,StyleS }) => {
           <Text style = {styles.ReviewDateNoDesc}> {Day} day Ago </Text>
         )}
 
-        {Day == 0 && Year == 0 && <Text style = {styles.ReviewDateNoDesc}> Today </Text> }
+        {Day == 0 && Year == 0 && Month == 0 && <Text style = {styles.ReviewDateNoDesc}> Today </Text> }
         
       </View>}
     </View>

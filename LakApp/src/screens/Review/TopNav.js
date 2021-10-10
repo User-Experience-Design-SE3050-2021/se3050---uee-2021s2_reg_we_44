@@ -19,7 +19,7 @@ const {width , height} = Dimensions.get("window")
           alignItems: 'center', //Centered vertically
           paddingTop:20,
           paddingLeft:9,
-          marginTop:25,
+          marginTop:15,
          
           
         },

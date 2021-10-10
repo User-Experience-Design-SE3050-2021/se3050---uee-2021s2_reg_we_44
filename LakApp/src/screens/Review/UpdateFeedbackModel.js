@@ -6,26 +6,26 @@ import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import api from "../../api";
+import SpinnerLoad from "../Common/spinnerLoad";
 
 const {width , height} = Dimensions.get("window")
 
 const UpdateFeedbackModel = ({toggle,setToggle,Data}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [text, onChangeText] = React.useState("");
-  const [CheckBtn, SetCheckBtn] = React.useState(false);
-  const [starName, setStarName] = React.useState(["star","star","star","star","star"]);
-  const [description, SetDescription] = React.useState("");
-  const [companyName, SetCompanyName] = React.useState("");
-  const [rating, SetRating] = React.useState();
+  const [text, onChangeText] =useState("");
+  const [CheckBtn, SetCheckBtn] = useState(false);
+  const [starName, setStarName] = useState(["star","star","star","star","star"]);
+  const [description, SetDescription] = useState("");
+  const [companyName, SetCompanyName] = useState("");
+  const [rating, SetRating] = useState();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [addDescVisible, setaddDescVisible] = useState(false);
-
+  const [SpinnerLoading,setSpinnerLoading] = useState(true);
   const today = new Date()
   const array=[5];
 
 useEffect(() => {
-  console.log(Data._id)
   SetDescription(Data.description)
   SetCompanyName(Data.companyName)
   onStarRatingPress(Data.rating  - 1)
@@ -40,6 +40,7 @@ useEffect(() => {
   }else{
     setaddDescVisible(false)
   }
+  
 }, [modalVisible])
 
  const onStarRatingPress =(rating) => {
@@ -64,6 +65,8 @@ useEffect(() => {
 
   const FeedbackUpdate=()=>{
 
+    setSpinnerLoading(false)
+
     const feedback ={
       id:Data._id,
       userName: Data.userName,
@@ -78,7 +81,8 @@ useEffect(() => {
       if (response.data.message) {
           alert.info(response.data.message);
       }
-      setModalVisible(!modalVisible);
+      setSpinnerLoading(true)
+      setModalVisible(!modalVisible)
       setToggle(!toggle)
       })
       .catch(function (error) {
@@ -92,9 +96,10 @@ useEffect(() => {
   
   <View style={styles.centeredViewMain}>
       
-      { modalVisible ? <StatusBar backgroundColor="rgba(0,0,0,0.5)" barStyle={'light-content'} /> : 
-      <StatusBar backgroundColor={"#F6F6F9"} barStyle={'dark-content'} />}
+      { !modalVisible ? <StatusBar backgroundColor={"#F6F6F9"} barStyle={'dark-content'}/> :
+       <StatusBar backgroundColor={"rgba(0,0,0,0.5)" } barStyle={'light-content'} /> }
       <Modal
+        statusBarTranslucent={true}
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -107,7 +112,8 @@ useEffect(() => {
         <View style={styles.centeredView}>
         <View style={styles.modelViewBackground}>
           <View style={styles.modalView}>
-              <View style={styles.modalHeader}>
+           
+                <View style={styles.modalHeader}>
                 <Text style={styles.modalTitle}>Update Feedback</Text>
                 <Pressable
                     style={[styles.button, styles.buttonClose]}
@@ -116,7 +122,8 @@ useEffect(() => {
                     <Ionicons style={styles.ModalCloseIcon} name="ios-close"/>
                 </Pressable>
               </View>
-
+              {SpinnerLoading ?
+              <View >
                 <SafeAreaView>
                     <View style={styles.nameFlex}>
                     <Text style={styles.InputLable}>Name</Text> 
@@ -172,6 +179,7 @@ useEffect(() => {
                      <Ionicons style={styles.SaveIcon} name="ios-add-circle-outline" />
                      <Text style={styles.SaveBtnText}>UPDATE FEEDBACK</Text>
                 </Pressable>
+                </View>:<SpinnerLoad/>}
 
                 
           </View>
@@ -212,7 +220,8 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems: 'center',
         marginTop:10,
-        marginRight:5
+        marginRight:5,
+        elevation:5
       }, 
       MyReviewIcon:{
         color:"#F6F6F9",
@@ -290,8 +299,6 @@ const styles = StyleSheet.create({
   SaveButton:{
     width:220,
     alignSelf:"center",
-    height:52,
-    marginRight:20,
     height:52,
     borderRadius:10,
     margin:8,

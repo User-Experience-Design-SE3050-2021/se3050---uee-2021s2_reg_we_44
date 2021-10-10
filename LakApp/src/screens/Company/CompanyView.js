@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     },
     CompanyDesc:{
         marginTop:15,
-        fontSize:15,
+        fontSize:15.5,
         fontWeight:"400",
         textAlign: "left",
         marginLeft:30,
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
          width:268,
          height:1,
          borderColor: "#F2F2F2",
-         borderWidth:1,
+         borderWidth:0.8,
          alignSelf:"center",
          marginTop:40,
          marginBottom:40
@@ -216,7 +216,8 @@ return(
 
                 <View style = {styles.container}>
                     <Text style = {styles.Companytitile}>Burger Palace - "Colombo 03"</Text>
-                    <Text style = {styles.CompanyDesc}>Labore sunt veniam amet est. Minim nisi dolor eu ad incididunt cillum elit ex ut. lLabore sunt veniam amet est.</Text>
+                    <Text style = {styles.CompanyDesc}>Hungry for something different? Simple ingredients and authentic recipes that stand the test of time.</Text>
+                            <Text style = {styles.CompanyDesc}>      • Burgers  • Coffee  • Pizza   • Desserts</Text>
                             <View style={styles.rating}>
                                 <Star score={4} style={styles.starStyle} />
                             </View>

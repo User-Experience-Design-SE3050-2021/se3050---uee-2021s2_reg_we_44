@@ -3,6 +3,7 @@ import { Alert,SafeAreaView, Modal, StyleSheet,StatusBar,Dimensions, TextInput ,
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CircleCheckBox, {LABEL_POSITION} from 'react-native-circle-checkbox'; 
+import SpinnerLoad from "../Common/spinnerLoad";
 import api from "../../api";
 import { TableRow } from "@mui/material";
 
@@ -20,6 +21,7 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [addDescVisible, setaddDescVisible] = useState(false);
+  const [SpinnerLoading,setSpinnerLoading] = useState(true);
 
   const today = new Date()
 
@@ -51,7 +53,7 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
   }, [starName]);
 
   const FeedbackSubmit=()=>{
-
+    setSpinnerLoading(false)
     const feedback ={
       userName: "Christina Aguilera",
       description:description ,
@@ -66,8 +68,10 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
           alert.info(response.data.message);
       }
       SetDescription("")
+      setSpinnerLoading(true)
       setModalVisible(!modalVisible);
       setToggle(!toggle)
+      setaddDescVisible(false)
       })
       .catch(function (error) {
           console.log(error);
@@ -82,6 +86,7 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
       { modalVisible ? <StatusBar backgroundColor="rgba(0,0,0,0.5)" barStyle={'light-content'} /> : 
       <StatusBar backgroundColor={"#F6F6F9"} barStyle={'dark-content'} />}
       <Modal
+        statusBarTranslucent={true}
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -98,11 +103,12 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
                 <Text style={styles.modalTitle}>Give Feedback</Text>
                 <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => {setModalVisible(!modalVisible) ,setaddDescVisible(!addDescVisible)} } >
+                    onPress={() => {setModalVisible(!modalVisible) ,setaddDescVisible(false)} } >
                     <Ionicons style={styles.ModalCloseIcon} name="ios-close"/>
                 </Pressable>
               </View>
-
+              {SpinnerLoading ?
+              <View >
                 <SafeAreaView>
                     <View style={styles.nameFlex}>
                     <Text style={styles.InputLable}>Name</Text> 
@@ -149,7 +155,7 @@ const GiveFeedbackModel = ({toggle,setToggle}) => {
                        
 
                 </SafeAreaView>
-
+                </View>:<SpinnerLoad/>}
                 <Pressable
                     style={styles.SaveButton}
                     onPress={() => FeedbackSubmit()} >

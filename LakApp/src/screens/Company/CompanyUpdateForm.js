@@ -14,7 +14,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { Fumi } from 'react-native-textinput-effects';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Kohana } from 'react-native-textinput-effects';
-
+import SpinnerLoad from '../Common/spinnerLoad';
 import { useValidation } from 'react-native-form-validator';
 import api from '../../api';
 import {
@@ -246,6 +246,7 @@ const CompanyUpdateForm = ({ route,navigation }) => {
     const [selectedValue, setSelectedValue] = useState("Restaurant");
     const [image, setImage] = useState('https://www.linkpicture.com/q/1024.webp');
     const [modalVisible, setModalVisible] = useState(false);
+    const [SpinnerLoading,setSpinnerLoading] = useState(false);
     
     const [visible, setVisible] = useState(false);
     const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
@@ -290,6 +291,7 @@ const CompanyUpdateForm = ({ route,navigation }) => {
     }
     
     const handleSubmit = () => {
+      setSpinnerLoading(true)
       const company = {
         id:cId,
         companyName: cname,
@@ -306,6 +308,7 @@ const CompanyUpdateForm = ({ route,navigation }) => {
           if (response.data.message) {
               alert.info(response.data.message);
           }
+          setSpinnerLoading(false)
           setModalVisible(true)
           onChangeCName(null)
           onChangeAddress(null)
@@ -508,14 +511,14 @@ const CompanyUpdateForm = ({ route,navigation }) => {
             <Text style={styles.errorMsg}>Please enter a valid Description</Text>
           ))}      
                  
-                
+      {SpinnerLoading ?      <SpinnerLoad/>  :          
       <TouchableHighlight underlayColor="transparent"  onPress={() => _onPressButton()}  style={styles.AddBtn}>
             
             <View style={styles.AddReviewBtnContainer}>
                         <Ionicons style={styles.FeedbackAddIcon} name="ios-add-circle-outline" />
                         <Text style={styles.AddReviewBtnText}>UPDATE</Text>
                     </View>
-     </TouchableHighlight>
+     </TouchableHighlight>}
 
 
 

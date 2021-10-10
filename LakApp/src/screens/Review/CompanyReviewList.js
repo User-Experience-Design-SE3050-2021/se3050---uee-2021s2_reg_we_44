@@ -179,8 +179,17 @@ const styles = StyleSheet.create({
          
      },
      Scroll: {
-      paddingBottom:80,
-  }
+      paddingBottom:100,
+  },
+  hrLine:{
+    width:268,
+    height:1,
+    borderColor: "#F2F2F2",
+    borderWidth:0.8,
+    alignSelf:"center",
+    marginTop:30,
+    marginBottom:10
+},
     
   })
 
@@ -325,6 +334,7 @@ useEffect(() => {
                     );
                   
                 })}
+                 <View  style = {styles.hrLine} />
                 </ScrollView>}
 
 

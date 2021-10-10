@@ -1,6 +1,6 @@
 
 import React,{useEffect,useState} from 'react';
-import { StyleSheet, View,ScrollView, Dimensions,Text,Pressable } from 'react-native';
+import { StyleSheet, View,ScrollView, Dimensions,Text,Pressable,ToastAndroid } from 'react-native';
 import Star from 'react-native-star-view';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -38,7 +38,7 @@ const {width , height} = Dimensions.get("window")
 
 useEffect(() => {
   setIsLoading(true)
-  api.get(`/feedback`)
+  api.get(`/feedback/last/`)
     .then((res) => {
       if(res.data){
         setRows(res.data);
@@ -60,7 +60,16 @@ const handleDelete =(id)=>{
   setIsLoading(true)
   api.delete(`feedback/delete/${id}`)
   .then((res) => {
+    setToggle(!toggle)
     setIsLoading(false)
+    ToastAndroid.showWithGravityAndOffset(
+      "Successfully Deleted",
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50
+    );
+    
   })
   .catch((err) => {
     console.log(err);
@@ -97,7 +106,7 @@ const handleDelete =(id)=>{
             shadowOffset: {width : 0.5,height:0.5},
             shadowOpacity:0.5,
             shadowRadius:3,
-            elevation: 6,
+            elevation: 7,
         },
         ReviewCardHeader:{
             flexDirection:"row",
@@ -156,27 +165,7 @@ const handleDelete =(id)=>{
             flexDirection:"row",
             justifyContent:"space-between"
           },
-          // MyReviewEditBtn:{
-          //   width:60,
-          //   alignSelf:"flex-end",
-          //   height:42,
-          //   borderRadius:15,
-          //   backgroundColor:"#458EFC",
-          //   borderColor:'#458EFC', 
-          //   borderWidth:1,
-          //   overflow: 'hidden',
-          //   shadowColor: "black",
-          //   shadowRadius: 10,
-          //   flexDirection:"row",
-          //   justifyContent:"center",
-          //   alignItems: 'center',
-          //   shadowOffset: {width : 0.5,height:0.5},
-          //   shadowOpacity:0.7,
-          //   elevation: 6,
-          //   marginRight:5
-            
-           
-          // },
+        
           MyReviewDelBtn:{
             width:60,
             alignSelf:"flex-end",
@@ -233,6 +222,15 @@ const handleDelete =(id)=>{
             height:height-100,
             paddingVertical:20
           },
+          hrLine:{
+            width:268,
+            height:1,
+            borderColor: "#e3e3e3",
+            borderWidth:0.8,
+            alignSelf:"center",
+            marginTop:30,
+            marginBottom:10
+        },
         
         
       })
@@ -295,7 +293,7 @@ const handleDelete =(id)=>{
                       
 
                 </View>)})}
-
+                <View  style = {styles.hrLine} />
                
 
                 

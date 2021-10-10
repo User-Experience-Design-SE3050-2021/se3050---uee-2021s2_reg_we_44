@@ -7,7 +7,6 @@ import { Avatar } from 'react-native-paper';
 import api from '../../api';
 import {  IconButton, Searchbar } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
 import { FacebookLoader,InstagramLoader } from 'react-native-easy-content-loader';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
