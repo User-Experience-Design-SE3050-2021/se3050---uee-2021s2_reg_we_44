@@ -10,48 +10,56 @@ import { Header } from 'react-native-elements';
 var cardData = [{
     name: 'Toyota CHR',
     address: 'Galle, Galle',
+    description:"2018 registered, First user. Permit vehicle used by an engineer. Toyota Lanka maintained, records available, accident free. Mint condition.,Accident-free, Untouched paint, Maintained under Max warranty, All service records available, Original catalog, JAAI inspection certificates copies available, Currently not under lease/finance",
     uri: "https://cdn.jdpower.com/JDPA_2020%20Toyota%20C-HR%20Limited%20Blue%20Front%20View.jpg",
     price: '8,500,000',
     updated: '1 week ago'
 }, {
     name: 'Toyota Vitz',
     address: 'Galle, Galle',
+    description:"2018 registered, First user. Permit vehicle used by an engineer. Toyota Lanka maintained, records available, accident free. Mint condition.,Accident-free, Untouched paint, Maintained under Max warranty, All service records available, Original catalog, JAAI inspection certificates copies available, Currently not under lease/finance",
     uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/2008_Toyota_Vitz_02.jpg/1200px-2008_Toyota_Vitz_02.jpg",
     price: '3,500,000',
     updated: '1 week ago'
 }, {
     name: 'Toyota Premio',
     address: 'Galle, Galle',
+    description:"2018 registered, First user. Permit vehicle used by an engineer. Toyota Lanka maintained, records available, accident free. Mint condition.,Accident-free, Untouched paint, Maintained under Max warranty, All service records available, Original catalog, JAAI inspection certificates copies available, Currently not under lease/finance",
     uri: "https://importdirect.lk/wp-content/uploads/2020/03/20190712_162124.jpg",
     price: '9,500,000',
     updated: '1 week ago'
 }, {
     name: 'Discovery Sport',
     address: 'Galle, Galle',
+    description:"2018 registered, First user. Permit vehicle used by an engineer. Toyota Lanka maintained, records available, accident free. Mint condition.,Accident-free, Untouched paint, Maintained under Max warranty, All service records available, Original catalog, JAAI inspection certificates copies available, Currently not under lease/finance",
     uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2021-land-rover-discovery-r-dynamic-103-1604948700.jpg?crop=0.806xw:0.906xh;0.117xw,0.0938xh&resize=640:*",
     price: '13,500,000',
     updated: '1 week ago'
 }, {
     name: 'Toyota CHR',
     address: 'Galle, Galle',
+    description:"2018 registered, First user. Permit vehicle used by an engineer. Toyota Lanka maintained, records available, accident free. Mint condition.,Accident-free, Untouched paint, Maintained under Max warranty, All service records available, Original catalog, JAAI inspection certificates copies available, Currently not under lease/finance",
     uri: "https://cdn.jdpower.com/JDPA_2020%20Toyota%20C-HR%20Limited%20Blue%20Front%20View.jpg",
     price: '8,500,000',
     updated: '1 week ago'
 }, {
     name: 'Toyota Vitz',
     address: 'Galle, Galle',
+    description:"2018 registered, First user. Permit vehicle used by an engineer. Toyota Lanka maintained, records available, accident free. Mint condition.,Accident-free, Untouched paint, Maintained under Max warranty, All service records available, Original catalog, JAAI inspection certificates copies available, Currently not under lease/finance",
     uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/2008_Toyota_Vitz_02.jpg/1200px-2008_Toyota_Vitz_02.jpg",
     price: '3,500,000',
     updated: '1 week ago'
 }, {
     name: 'Toyota Premio',
     address: 'Galle, Galle',
+    description:"2nd owner ngx10 2 wheel drive with boost impulse body kit black top full leather factory fitted seat set. duel multifunctions stearing tv dvd camera alloys new tyrs lane departure keyless entry with smary key. HID xenon schoop head lights. toyota lanka maintaind. accidant free first owner. orginal paint. accidant free. well maintained. ",
     uri: "https://importdirect.lk/wp-content/uploads/2020/03/20190712_162124.jpg",
     price: '9,500,000',
     updated: '1 week ago'
 }, {
     name: 'Discovery Sport',
     address: 'Galle, Galle',
+    description:"2nd owner ngx10 2 wheel drive with boost impulse body kit black top full leather factory fitted seat set. duel multifunctions stearing tv dvd camera alloys new tyrs lane departure keyless entry with smary key. HID xenon schoop head lights. toyota lanka maintaind. accidant free first owner. orginal paint. accidant free. well maintained. ",
     uri: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2021-land-rover-discovery-r-dynamic-103-1604948700.jpg?crop=0.806xw:0.906xh;0.117xw,0.0938xh&resize=640:*",
     price: '13,500,000',
     updated: '1 week ago'
@@ -103,7 +111,7 @@ function HomeScreen({ navigation }) {
                     itemDimension={130}
                     data={cardData}
                     renderItem={({ item }) => (
-                        <Pressable onPress={() => { navigation.navigate('PostAd1') }}>
+                        <Pressable onPress={() => { navigation.navigate('Details',{item:item}) }}>
                             <Card
                                 style={{
                                     margin: 0,
