@@ -1,20 +1,22 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Button } from 'react-native-paper';
-import { StyleSheet, View, Text,Image ,Dimensions , SafeAreaView, ScrollView,TouchableHighlight,Pressable} from 'react-native';
+import { StyleSheet,RefreshControl, View, Text,Image ,Dimensions , SafeAreaView,ToastAndroid, ScrollView,TouchableHighlight,Pressable} from 'react-native';
 import Star from 'react-native-star-view';
 import { Card, ListItem, } from 'react-native-elements'
 import { Avatar } from 'react-native-paper';
-
+import api from '../../api';
 import {  IconButton, Searchbar } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import axios from 'axios';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SearchBar } from 'react-native-elements';
 import { style } from '@mui/system';
+import { FacebookLoader,InstagramLoader } from 'react-native-easy-content-loader';
 const {width , height} = Dimensions.get("window")
+import EmptyCompany from './EmptyCompany';
 
 
 import TopNav from '../Review/TopNav'
@@ -23,7 +25,6 @@ import TopNav from '../Review/TopNav'
 const styles = StyleSheet.create({
     
     CompanyListBody:{
-        
     },
     CompanyListTitle:{
         fontFamily: 'Raleway-SemiBold',
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     AddReviewBtn:{
         width:230,
         alignSelf:"flex-end",
-        height:52,
+        height:102,
         marginRight:20,
         
 
@@ -229,17 +230,64 @@ const styles = StyleSheet.create({
   })
 
   
-  
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  } 
   
 const MyCompanies = ({ navigation }) => {
     const[search,setSearch]=useState()
+    const[rows,setRows] = useState([])
+    const [isLoading,setIsLoading] =useState(true)
+    const[toggle,setToggle] = useState(false)
+    const [refreshing, setRefreshing] = React.useState(false);
 
+   
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
+
+    useEffect(() => {
+        setIsLoading(true)
+        api.get('/company/').then(function (response) {
+            console.log(response.data);
+            setRows(response.data)
+            setIsLoading(false)
+            if (response.data.message) {
+                alert.info(response.data.message);
+            }
+        })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }, [toggle,refreshing])
+function deleteCompany(id){
+    setIsLoading(true)
+    axios.delete(`http://192.168.8.225:5000/company/delete/${id}`).then(function (response) {
+        console.log(response.data);
+        setToggle(!toggle)
+        ToastAndroid.showWithGravityAndOffset(
+            "Successfully Deleted",
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM,
+            25,
+            50
+          );
+          setIsLoading(false)
+        if (response.data.message) {
+            alert.info(response.data.message);
+        }
+    })
+        
+}
     return (
+        <View style={{height:height}}>
+        
         <SafeAreaProvider >
             <TopNav navigation={navigation} Navtitle={"My Companies"} NavBarColor="#F6F6F9" NavBarFontColor="black" />
 
 
-            <View>
+            <View style={{height:height}}>
 
 
                 {/* <StatusBar backgroundColor={'#5956E9'} barStyle={'dark-content'} /> */}
@@ -259,6 +307,7 @@ const MyCompanies = ({ navigation }) => {
 
            
         </View> */}
+        
                 <View style={{
                     flexDirection: "row",
                     justifyContent: 'space-between',
@@ -282,36 +331,49 @@ const MyCompanies = ({ navigation }) => {
                         onPress={() => console.log('Pressed')}
                     />
                 </View>
+                
                 <ScrollView
-
+        scrollEnabled={true}
                     contentInsetAdjustmentBehavior="automatic"
+                    refreshControl={
+                        <RefreshControl
+                          refreshing={refreshing}
+                          onRefresh={onRefresh}
+                        />}
                     style={{
                         backgroundColor: '#f9f9f9',
                         padding: 20,
                         marginTop: 0,
-
+                       
                     }}>
-
+                        {isLoading && <FacebookLoader active/> }
+                        {isLoading && <FacebookLoader active/> }
+ {isLoading ? <FacebookLoader active/>  : 
+ rows.length > 0 ?
                     <View style={styles.CompanyListBody}>
-
-                        <Text style={styles.CompanyListTitle}>My Companies (2) </Text>
-
-                        <Pressable onPress={() => navigation.navigate('CompanyView')} style={styles.CompanyListCard}>
+                   
+                        <Text style={styles.CompanyListTitle}>My Companies ({rows.length}) </Text>
+                        
+                        {rows.map((row) => {
+                
+                return (
+                        <Pressable key={row._id} onPress={() => navigation.navigate('CompanyView')} style={styles.CompanyListCard}>
+                            
                             <View style={styles.CompanyListCardHeader}>
-                                <Image style={styles.Image} source={{ uri: "https://www.linkpicture.com/q/1024.webp" }} />
-                                <View style={{ marginTop: 5 }}>
+                                <Image style={styles.Image} source={{ uri: row.images[0] }} />
+                                <View style={{ marginTop: 5,width:235 }}>
 
                                     <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
                                         <Feather name='home' color='#5c5c5c' size={22} />
-                                        <Text style={styles.CompanyName}>Burger Palace </Text>
+                                        <Text style={styles.CompanyName}>{row.companyName}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
                                         <Feather name='map-pin' color='#5c5c5c' size={22} />
-                                        <Text style={styles.ReviewerName}>No 7, Galle Road, Colombo  </Text>
+                                        <Text style={styles.ReviewerName}>{row.address}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
                                         <Feather name='phone-call' color='#5c5c5c' size={22} />
-                                        <Text style={styles.ReviewerName}>+94 112 451 789 </Text>
+                                        <Text style={styles.ReviewerName}>{row.contactNo}</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
                                         <Feather name='eye' color='#5c5c5c' size={22} />
@@ -319,54 +381,24 @@ const MyCompanies = ({ navigation }) => {
                                     </View>
                                     <View style={{ flexDirection: 'row',justifyContent:'flex-end', marginRight: 10, marginBottom: 5 }} >
 
-                                        <Pressable  onPress={() => navigation.navigate('CompanyUpdateForm')} style={styles.EditBtn}>
+                                        <Pressable  onPress={() => navigation.navigate('CompanyUpdateForm',{ id:row._id,companyName: row.companyName, companyAddress:row.address,contactNo:row.contactNo,desc:row.description,category:row.category,thumbnail:row.images[0]})} style={styles.EditBtn}>
                                             <Feather style={styles.MyReviewIcon} name="edit-3" />
                                         </Pressable>
 
-                                        <Pressable  onPress={() => navigation.navigate('EmptyCompany')} style={styles.DeleteBtn}>
+                                        <Pressable  onPress={() => deleteCompany(row._id)}  style={styles.DeleteBtn}>
                                             <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
                                         </Pressable>
                                     </View>
                                 </View>
 
                             </View>
+                            
                         </Pressable>
+ ) ;
+                  
+})}
 
-                        <Pressable onPress={() => navigation.navigate('CompanyView')} style={styles.CompanyListCard}>
-                            <View style={styles.CompanyListCardHeader}>
-                                <Image style={styles.Image} source={{ uri: "https://www.linkpicture.com/q/257-2575361_hotel-wave-hatenylo-com-clip-art-free-hotel.png" }} />
-                                <View style={{ marginTop: 5 }}>
-
-                                    <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
-                                        <Feather name='home' color='#5c5c5c' size={22} />
-                                        <Text style={styles.CompanyName}>Hotel Green Leaf  </Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
-                                        <Feather name='map-pin' color='#5c5c5c' size={22} />
-                                        <Text style={styles.ReviewerName}>No 5, Kandy Road, Malabe</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
-                                        <Feather name='phone-call' color='#5c5c5c' size={22} />
-                                        <Text style={styles.ReviewerName}>+94 112 451 555</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
-                                        <Feather name='eye' color='#5c5c5c' size={22} />
-                                        <Star score={3} style={styles.starStyle} />
-                                    </View>
-                                    <View style={{ flexDirection: 'row',justifyContent:'flex-end', marginRight: 10, marginBottom: 5 }} >
-
-                                        <Pressable  onPress={() => navigation.navigate('CompanyUpdateForm')} style={styles.EditBtn}>
-                                            <Feather style={styles.MyReviewIcon} name="edit-3" />
-                                        </Pressable>
-
-                                        <Pressable  onPress={() => navigation.navigate('EmptyCompany')} style={styles.DeleteBtn}>
-                                            <MaterialIcons style={styles.MyReviewIcon} name="delete-outline" />
-                                        </Pressable>
-                                    </View>
-                                </View>
-
-                            </View>
-                        </Pressable>
+                     
 
                      
 
@@ -379,23 +411,25 @@ const MyCompanies = ({ navigation }) => {
 
 
                     </View>
+: <EmptyCompany navigation={navigation}/> 
 
-
-
+}
                 </ScrollView>
-
-                <View style={styles.AddButton} >
-                    <TouchableHighlight underlayColor="transparent" onPress={() => navigation.navigate('CompanyAddForm')} style={styles.AddReviewBtn}>
+                
+                <View  style={styles.AddButton} >
+                    <Pressable  onPress={() => navigation.navigate('CompanyAddForm')} style={styles.AddReviewBtn}>
                         <View style={styles.AddReviewBtnContainer}>
                             <Ionicons style={styles.FeedbackAddIcon} name="ios-add-circle-outline" />
                             <Text style={styles.AddReviewBtnText}>ADD MY COMPNAY</Text>
                         </View>
-                    </TouchableHighlight>
+                    </Pressable>
                 </View>
 
             </View>
+            
         </SafeAreaProvider>
-
+        
+        </View>
     )
 };
 

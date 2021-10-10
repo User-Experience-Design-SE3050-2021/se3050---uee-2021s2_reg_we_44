@@ -10,6 +10,7 @@ import {successImage} from './../../../assets/images/success.jpg'
 import { Backdrop } from "react-native-backdrop";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 import { Fumi } from 'react-native-textinput-effects';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Kohana } from 'react-native-textinput-effects';
@@ -76,8 +77,9 @@ const styles = StyleSheet.create({
       label: {
         marginTop: 20,
         margin: 12,
-        fontFamily: "Raleway-Bold",
-        fontSize: 22,
+        marginBottom:5,
+        fontFamily: "Raleway-SemiBold",
+        fontSize: 20,
         fontWeight:'normal',
     
       },
@@ -326,7 +328,7 @@ const CompanyAddForm = ({ navigation }) => {
     };
 
     function navigateCompanyList(){
-      navigation.navigate('Business')
+      navigation.push('MyCompanies')
       setModalVisible(!modalVisible)
     }
     return(
@@ -369,58 +371,64 @@ const CompanyAddForm = ({ navigation }) => {
                 borderTopRightRadius: 25,
 
             }}>
-          <Kohana
-            style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18}}
-            label={'Company Name'}
+              <Text style={styles.label}>
+                    Company Name
+                </Text>
+          <Fumi
+            style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18,paddingBottom:0}}
             iconClass={FontAwesomeIcon}
             iconName={'building-o'}
             iconColor={'#5956E9'}
             iconSize={32}
-            inputPadding={16}
-            labelStyle={{ color: '#000', fontSize: 22,fontWeight:'normal',fontFamily: 'Raleway-Bold' }}
-            inputStyle={{ color: '#000', fontSize: 18 }}
-            iconContainerStyle={{ padding: 20 }}
+            iconWidth={40}
+            iconHeigh={50}
+            placeholder={"Company Name"}
+            inputStyle={{ color: '#000', fontSize: 18,paddingBottom:23 }}
             onChangeText={onChangeCName}
             value={cname}
-            useNativeDriver
           />
           {isFieldInError('cname') &&
           getErrorsInField('cname').map(errorMessage => (
             <Text style={styles.errorMsg}>Please enter a valid Name</Text>
           ))}
-          <Kohana
+          <Text style={styles.label}>
+                    Address
+                </Text>
+          <Fumi
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18}}
-            label={'Address'}
-            iconClass={FontAwesomeIcon}
-            iconName={'envelope-square'}
+            
+            iconClass={Feather}
+            iconName={'mail'}
             iconColor={'#5956E9'}
-            iconSize={38}
-            inputPadding={16}
-            labelStyle={{ color: '#000', fontSize: 22,fontWeight:'normal',fontFamily: 'Raleway-Bold'  }}
-            inputStyle={{ color: '#000', fontSize: 18 }}
-            iconContainerStyle={{ padding: 20 }}
+            iconSize={32}
+            iconWidth={40}
+            iconHeigh={50}
+            placeholder={"Address"}
+            inputStyle={{ color: '#000', fontSize: 18,paddingBottom:23 }}
             onChangeText={onChangeAddress}
             value={address}
-            useNativeDriver
           />
           {isFieldInError('address') &&
           getErrorsInField('address').map(errorMessage => (
             <Text style={styles.errorMsg}>Please enter a valid Address</Text>
           ))}
-   <Kohana
+          <Text style={styles.label}>
+                    Contact No
+                </Text>
+   <Fumi
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18 }}
-            label={'Contact No'}
+           
             iconClass={FontAwesomeIcon}
             iconName={'mobile'}
             iconColor={'#5956E9'}
-            iconSize={38}
-            inputPadding={16}
-            labelStyle={{ color: '#000', fontSize: 22 ,fontWeight:'normal',fontFamily: 'Raleway-Bold' }}
-            inputStyle={{ color: '#000', fontSize: 18 }}
-            iconContainerStyle={{ padding: 20 }}
+            iconSize={40}
+            iconWidth={40}
+            iconHeigh={50}
+            placeholder={"Company Name"}
+            inputStyle={{ color: '#000', fontSize: 18,paddingBottom:24 }}
             onChangeText={onChangeNumber}
+            placeholder={"Contact No"}
             value={number}
-            useNativeDriver
           />
             {isFieldInError('number') &&
           getErrorsInField('number').map(errorMessage => (
@@ -431,16 +439,18 @@ const CompanyAddForm = ({ navigation }) => {
                     Category
                 </Text>
                 <Picker
+                style={{backgroundColor:'#f9f9f9'}}
                     selectedValue={selectedValue}
                     fullWidth
-                    style={{ height: 50, backgroundColor: '#F6F6F6', marginLeft: 12,fontWeight:'normal',  }}
+                    itemStyle={{ color: '#000', fontSize: 22,fontWeight:'bold',fontFamily: 'Raleway-Bold' }}
+                    
                     onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                     mode={'dropdown'}
                 >
-                    <Picker.Item style={{ fontSize: 18}} fullWidth label="Restaurant" value="restaurant" />
-                    <Picker.Item   style={{ fontSize: 18}}fullWidth label="Hotel" value="hotel" />
-                    <Picker.Item  style={{ fontSize: 18}} fullWidth label="Grocery" value="grocery" />
-                    <Picker.Item  style={{ fontSize: 18}} fullWidth label="Other" value="other" />
+                    <Picker.Item   style={{ color: '#808080', fontSize: 18,fontWeight:'normal',fontFamily: 'Raleway-Bold' }} fullWidth label="Restaurant" value="restaurant" />
+                    <Picker.Item   style={{ color: '#808080', fontSize: 18,fontWeight:'normal',fontFamily: 'Raleway-Bold' }} fullWidth label="Hotel" value="hotel" />
+                    <Picker.Item  style={{ color: '#808080', fontSize: 18,fontWeight:'normal',fontFamily: 'Raleway-Bold' }}  fullWidth label="Grocery" value="grocery" />
+                    <Picker.Item  style={{ color: '#808080', fontSize: 18,fontWeight:'normal',fontFamily: 'Raleway-Bold' }} fullWidth label="Other" value="other" />
                 </Picker>
                 
 
@@ -455,7 +465,7 @@ const CompanyAddForm = ({ navigation }) => {
                     source={{
                         uri: image,
                     }}
-                    style={{ borderRadius: 15,height: 300, width: 300,display:'flex' , marginLeft:30, marginBottom:30, justifyContent: 'center', backgroundColor:'#808080' }}
+                    style={{ borderRadius: 15,height: 300, width: 300,display:'flex' , marginLeft:30, marginBottom:30,marginTop:10, justifyContent: 'center', backgroundColor:'#808080' }}
                     imageStyle={{ borderRadius: 15 }}>
                     <View
                         style={{
@@ -466,20 +476,22 @@ const CompanyAddForm = ({ navigation }) => {
                     </View>
                 </ImageBackground>
                </Pressable>
-               <Kohana
+               <Text style={styles.label}>
+                    Description
+                </Text>
+               <Fumi
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18 }}
-            label={'Description'}
             iconClass={FontAwesomeIcon}
             iconName={'file-text-o'}
             iconColor={'#5956E9'}
             iconSize={32}
-            inputPadding={16}
-            labelStyle={{ color: '#000', fontSize: 22,fontWeight:'normal',fontFamily: 'Raleway-Bold'  }}
-            inputStyle={{ color: '#000', fontSize: 18 }}
+            iconWidth={40}
+            iconHeigh={50}
+            placeholder={"Description"}
+            inputStyle={{ color: '#000', fontSize: 18,paddingBottom:23 }}
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeDescription}
             value={description}
-            useNativeDriver
           />
            {isFieldInError('description') &&
           getErrorsInField('description').map(errorMessage => (
