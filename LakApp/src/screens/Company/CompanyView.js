@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
     container: {
       width:width,
-      height: height +1400,
+      height: height +400,
       borderTopRightRadius:30,
       borderTopLeftRadius:30,
       backgroundColor:'#FFFFFF',
@@ -135,10 +135,6 @@ const styles = StyleSheet.create({
          marginBottom:40
          
     },
-    ReviewBody:{
-        
-
-    },
     ReviewTitle:{
         fontFamily: 'Raleway-SemiBold',
         fontWeight:"600",
@@ -151,7 +147,8 @@ const styles = StyleSheet.create({
         width:230,
         alignSelf:"flex-end",
         height:52,
-        marginRight:30
+        marginRight:30,
+        
     },
     AddReviewBtnContainer:{
         width:230,

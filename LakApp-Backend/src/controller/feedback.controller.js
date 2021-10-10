@@ -19,7 +19,8 @@ const createFeedback= async (req, res) => {
 
 //get All Feedback
 const getAllFeedback = async (req, res) => {
-    await Feedback.find()
+    const mySort={ date: 1 };
+    await Feedback.find().sort(mySort)
         .then((data) => {
             res.status(200).send(data);
         })
@@ -70,8 +71,8 @@ function updateDetails(id, req, callback) {
 
 //delete Feedback
 const deleteFeedback = async (req, res) => {
-    if (req.body.id) {
-        await Feedback.findByIdAndDelete(req.body.id, (err, result) => {
+    if (req.params.id) {
+        await Feedback.findByIdAndDelete(req.params.id, (err, result) => {
             if (err) return res.status(500).send(err);
             console.log(result);
             return res.status(200).send(result);

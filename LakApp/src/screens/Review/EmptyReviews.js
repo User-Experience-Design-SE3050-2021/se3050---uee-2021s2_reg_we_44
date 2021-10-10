@@ -44,7 +44,6 @@ const {width , height} = Dimensions.get("window")
     
   return (
     <View style={styles.container}>
-      <TopNav  Navtitle={"My Reviews"}  NavBarColor="#F6F6F9"  NavBarFontColor="black" navigation={navigation}/>
         <Image style = {styles.image} source = {NoReview}/>
         <Text style = {styles.NoreviewTitle}>You haven’t add any review yet</Text>
        

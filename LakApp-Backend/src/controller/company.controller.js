@@ -19,6 +19,7 @@ const createCompany = async (req, res) => {
 
 //get All Company
 const getAllCompany = async (req, res) => {
+    
     await Company.find()
         .then((data) => {
             res.status(200).send(data);

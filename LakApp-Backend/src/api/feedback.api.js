@@ -6,6 +6,6 @@ module.exports = function (){
     router.get('/', FeedbackController.getAllFeedback);
     router.post('/create', FeedbackController.createFeedback);
     router.put('/update', FeedbackController.updateFeedback);
-    router.delete('/delete',FeedbackController.deleteFeedback);
+    router.delete('/delete/:id',FeedbackController.deleteFeedback);
     return router;
 }
