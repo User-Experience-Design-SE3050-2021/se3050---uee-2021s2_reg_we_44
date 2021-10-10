@@ -1,20 +1,15 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, Image, Animated, Dimensions, FlatList, SafeAreaView, ScrollView, StyleSheet, } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Card, Checkbox, Divider, IconButton, Paragraph, Searchbar, Title } from 'react-native-paper';
-import { Item } from 'react-native-paper/lib/typescript/components/List/List';
+import { View, Text,Alert, TouchableOpacity, Image, Animated, Dimensions, FlatList, SafeAreaView, ScrollView, StyleSheet, } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
-import { Header, Button, Icon } from 'react-native-elements';
+import { Header, Button, Icon, CheckBox } from 'react-native-elements';
 import { SliderBox } from "react-native-image-slider-box";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-// import { ScrollView } from 'react-native-gesture-handler';
+
 var primaryColor = '#7D86F5'
 
 function AdsImageScreen({ navigation }) {
     const [imageKey, setImageKey] = React.useState(0);
+    const [isSelected, setSelection] = React.useState(false);
     const [imageGallery, setImageUrlGallery] = React.useState([
         'https://broarmy.net/gallery/images/gallerySmallPlaceholder.png',
         'https://broarmy.net/gallery/images/gallerySmallPlaceholder.png',
@@ -121,13 +116,19 @@ function AdsImageScreen({ navigation }) {
                     }
                     title="  Add Images "
                 />
-                <View style={{flexDirection:'row',justifyContent:"flex-start", marginTop: 40,marginLeft:-8 }}>
-                    <Checkbox />
-                    <Text style={{ color: 'grey', fontSize: 14, marginTop: 8}}>I agree to the Lak.lk Terms of Services</Text>
+                <View style={{flexDirection:'row',justifyContent:"flex-start", marginTop: 40,marginLeft:-16 }}>
+                    <CheckBox checked={isSelected} onPress={() => setSelection(!isSelected)} />
+                    <Text style={{ color: 'grey', fontSize: 14, marginTop: 16, marginLeft:-14}}>I agree to the Lak.lk Terms of Services</Text>
                 </View>
             </View>
             <TouchableOpacity style={styles.button}
-                onPress={() => { }}>
+                onPress={() => { Alert.alert(
+      "Posted Successfully",
+      "Your ad has been posted successfully.",
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );}}>
                 <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold", marginTop: 5 }}>Post Ad</Text>
             </TouchableOpacity>
         </View>
