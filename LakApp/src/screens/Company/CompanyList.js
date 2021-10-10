@@ -249,7 +249,7 @@ const CompanyList = ({ navigation }) => {
                     {rows.length > 0 && rows.map((row) => {
                 
                 return (
-                    <Pressable onPress={() => navigation.navigate('CompanyView')} style={styles.CompanyListCard}>
+                    <Pressable key={row._id} onPress={() => navigation.navigate('CompanyView')} style={styles.CompanyListCard}>
                         <View style={styles.CompanyListCardHeader}>
                             <Image style={styles.Image} source={{ uri: row.images[0] }} />
                             <View>

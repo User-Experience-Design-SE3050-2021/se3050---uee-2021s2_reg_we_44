@@ -260,7 +260,7 @@ const MyCompanies = ({ navigation }) => {
             .catch(function (error) {
                 console.log(error);
             })
-    }, [toggle])
+    }, [toggle,refreshing])
 function deleteCompany(id){
     setIsLoading(true)
     axios.delete(`http://192.168.8.225:5000/company/delete/${id}`).then(function (response) {
