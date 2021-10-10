@@ -15,6 +15,7 @@ import { Fumi } from 'react-native-textinput-effects';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Kohana } from 'react-native-textinput-effects';
 import { useValidation } from 'react-native-form-validator';
+import SpinnerLoad from '../Common/spinnerLoad';
 import api from '../../api';
 import {
     Dimensions ,
@@ -247,6 +248,7 @@ const CompanyAddForm = ({ navigation }) => {
     const [selectedValue, setSelectedValue] = useState("Restaurant");
     const [image, setImage] = useState('https://www.linkpicture.com/q/Placeholder.jpg');
     const [modalVisible, setModalVisible] = useState(false);
+    const [SpinnerLoading,setSpinnerLoading] = useState(false);
     
     const [visible, setVisible] = useState(false);
   
@@ -275,6 +277,7 @@ const CompanyAddForm = ({ navigation }) => {
     }
 
     const handleSubmit = () => {
+      setSpinnerLoading(true)
       const company = {
 
         companyName: cname,
@@ -291,11 +294,13 @@ const CompanyAddForm = ({ navigation }) => {
           if (response.data.message) {
               alert.info(response.data.message);
           }
-          setModalVisible(true)
+          setSpinnerLoading(false)
+          setModalVisible(!modalVisible)
           onChangeCName(null)
           onChangeAddress(null)
           onChangeDescription(null)
           onChangeNumber(null)
+          
     })
     .catch(function (error) {
         console.log(error);
@@ -497,14 +502,14 @@ const CompanyAddForm = ({ navigation }) => {
           getErrorsInField('description').map(errorMessage => (
             <Text style={styles.errorMsg}>Please enter a valid Description</Text>
           ))}      
-                
+        {SpinnerLoading ?      <SpinnerLoad/>  :
       <TouchableHighlight underlayColor="transparent"   onPress={() => _onPressButton()} style={styles.AddBtn}>
             
             <View style={styles.AddReviewBtnContainer}>
                         <Ionicons style={styles.FeedbackAddIcon} name="ios-add-circle-outline" />
                         <Text style={styles.AddReviewBtnText}>ADD NEW</Text>
                     </View>
-     </TouchableHighlight>
+     </TouchableHighlight> }
 
 
 

@@ -263,7 +263,7 @@ const MyCompanies = ({ navigation }) => {
     }, [toggle,refreshing])
 function deleteCompany(id){
     setIsLoading(true)
-    axios.delete(`http://192.168.8.225:5000/company/delete/${id}`).then(function (response) {
+    api.delete(`company/delete/${id}`).then(function (response) {
         console.log(response.data);
         setToggle(!toggle)
         ToastAndroid.showWithGravityAndOffset(
