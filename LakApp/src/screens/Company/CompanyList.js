@@ -1,13 +1,14 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Button } from 'react-native-paper';
-import { StyleSheet, View, Text,Image ,Dimensions , SafeAreaView, ScrollView,TouchableHighlight,Pressable} from 'react-native';
+import { StyleSheet,RefreshControl, View, Text,Image ,Dimensions , SafeAreaView, ScrollView,TouchableHighlight,Pressable,StatusBar} from 'react-native';
 import Star from 'react-native-star-view';
 import { Card, ListItem, } from 'react-native-elements'
 import { Avatar } from 'react-native-paper';
-
+import api from '../../api';
 import {  IconButton, Searchbar } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { FacebookLoader,InstagramLoader } from 'react-native-easy-content-loader';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -163,34 +164,42 @@ const styles = StyleSheet.create({
   })
 
   
-  
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  } 
   
 const CompanyList = ({ navigation }) => {
     var lightColor = '#CFD4FF' 
     const[search,setSearch]=useState()
+    const[rows,setRows] = useState([])
+    const [isLoading,setIsLoading] =useState(true)
+    const [refreshing, setRefreshing] = React.useState(false);
+
+   
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
+    useEffect(() => {
+        setIsLoading(true)
+        api.get('/company/').then(function (response) {
+            console.log(response.data);
+            setRows(response.data)
+            setIsLoading(false)
+            if (response.data.message) {
+                alert.info(response.data.message);
+            }
+        })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }, [refreshing])
+
     return(
 
         <View>
             <TopNav navigation={navigation}  Navtitle={"Company List"}  NavBarColor="#F6F6F9"  NavBarFontColor="black"/>
-             
-
-        {/* <StatusBar backgroundColor={'#5956E9'} barStyle={'dark-content'} /> */}
-        {/* <View
-            style={{
-                backgroundColor: '#f9f9f9',
-                flexDirection: "row",
-                height: 150,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-
-            <Text style={styles.baseText}>
-                List of Companies
-            </Text>
-
-           
-        </View> */}
+   
         <View style={{
                 flexDirection: "row",
                 justifyContent: 'space-between',
@@ -217,6 +226,11 @@ const CompanyList = ({ navigation }) => {
         <ScrollView
         
             contentInsetAdjustmentBehavior="automatic"
+            refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />}
             style={{
                 backgroundColor: '#f9f9f9',
                 height: 800,
@@ -224,54 +238,33 @@ const CompanyList = ({ navigation }) => {
                 marginTop: 0,
 
             }}> 
-            
+              {isLoading && <FacebookLoader active/> }
+                        {isLoading && <FacebookLoader active/> }
+ {isLoading ? <FacebookLoader active/>  : 
              <View style = {styles.CompanyListBody}>
                 
-                <Text style = {styles.CompanyListTitle}>Companies (2) </Text>
+                <Text style = {styles.CompanyListTitle}>Companies ({rows.length}) </Text>
 
-                    <Pressable  onPress={() => navigation.navigate('CompanyView')} style={styles.CompanyListCard}>
-                        <View style={styles.CompanyListCardHeader}>
-                            <Image style={styles.Image} source={{ uri: "https://www.linkpicture.com/q/1024.webp" }} />
-                            <View style={{marginTop:5}}>
 
-                                <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
-                                    <Feather name='home' color='#5c5c5c' size={22} />
-                                    <Text style={styles.CompanyName}>Burger Palace </Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
-                                    <Feather name='map-pin' color='#5c5c5c' size={22} />
-                                    <Text style={styles.ReviewerName}>No 7, Galle Road, Colombo  </Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
-                                    <Feather name='phone-call' color='#5c5c5c' size={22} />
-                                    <Text style={styles.ReviewerName}>+94 112 451 789 </Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
-                                    <Feather name='eye' color='#5c5c5c' size={22} />
-                                    <Star score={3} style={styles.starStyle} />
-                                </View>
-                            </View>
-                        </View>
-                    </Pressable>
-
+                    {rows.length > 0 && rows.map((row) => {
                 
-
+                return (
                     <Pressable onPress={() => navigation.navigate('CompanyView')} style={styles.CompanyListCard}>
                         <View style={styles.CompanyListCardHeader}>
-                            <Image style={styles.Image} source={{ uri: "https://www.linkpicture.com/q/257-2575361_hotel-wave-hatenylo-com-clip-art-free-hotel.png" }} />
+                            <Image style={styles.Image} source={{ uri: row.images[0] }} />
                             <View>
 
                                 <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
                                     <Feather name='home' color='#5c5c5c' size={22} />
-                                    <Text style={styles.CompanyName}>Hotel Green Leaf </Text>
+                                    <Text style={styles.CompanyName}>{row.companyName}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
                                     <Feather name='map-pin' color='#5c5c5c' size={22} />
-                                    <Text style={styles.ReviewerName}>No 5, Kandy Road, Malabe  </Text>
+                                    <Text style={styles.ReviewerName}>{row.address} </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
                                     <Feather name='phone-call' color='#5c5c5c' size={22} />
-                                    <Text style={styles.ReviewerName}>+94 112 451 555 </Text>
+                                    <Text style={styles.ReviewerName}>{row.contactNo}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 5 }} >
                                     <Feather name='eye' color='#5c5c5c' size={22} />
@@ -280,7 +273,10 @@ const CompanyList = ({ navigation }) => {
                             </View>
                         </View>
                     </Pressable>
-
+                 ) ;
+                  
+            })}
+            
 
                     
 
@@ -291,7 +287,7 @@ const CompanyList = ({ navigation }) => {
 
             </View>
                
-            
+        }
 
 </ScrollView>
 

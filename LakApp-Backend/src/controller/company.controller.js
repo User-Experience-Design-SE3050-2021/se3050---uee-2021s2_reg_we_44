@@ -71,8 +71,9 @@ function updateDetails(id, req, callback) {
 
 //delete Company
 const deleteCompany = async (req, res) => {
-    if (req.body.id) {
-        await Company.findByIdAndDelete(req.body.id, (err, result) => {
+    console.log("req",req.params.id)
+    if (req.params.id) {
+        await Company.findByIdAndDelete(req.params.id, (err, result) => {
             if (err) return res.status(500).send(err);
             console.log(result);
             return res.status(200).send(result);

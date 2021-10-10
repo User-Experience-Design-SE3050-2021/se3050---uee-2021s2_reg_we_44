@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Header } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Picker } from '@react-native-picker/picker';
@@ -10,9 +10,13 @@ import {successImage} from './../../../assets/images/success.jpg'
 import { Backdrop } from "react-native-backdrop";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 import { Fumi } from 'react-native-textinput-effects';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Kohana } from 'react-native-textinput-effects';
+
+import { useValidation } from 'react-native-form-validator';
+import api from '../../api';
 import {
     Dimensions ,
     Alert, 
@@ -30,7 +34,8 @@ import {
   View,
   Button,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  ToastAndroid
 } from 'react-native';
 
 
@@ -44,6 +49,7 @@ import {
 
 
 import TopNav from '../Review/TopNav'
+import { Route } from 'react-router';
 
 const {width , height} = Dimensions.get("window")
 
@@ -231,8 +237,8 @@ const styles = StyleSheet.create({
    },
   })
   
-const CompanyUpdateForm = ({ navigation }) => {
-
+const CompanyUpdateForm = ({ route,navigation }) => {
+    const [cId, setCid] = useState("")
     const [number, onChangeNumber] = useState("+94 7548156");
     const [cname, onChangeCName] = useState('Burger Palace');
     const [address, onChangeAddress] = useState('Colombo 3');
@@ -242,7 +248,23 @@ const CompanyUpdateForm = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     
     const [visible, setVisible] = useState(false);
-  
+    const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
+    useValidation({
+      state: { cname, number, address, description },
+    });
+
+    const {id,companyName,companyAddress,contactNo,desc,category,thumbnail} = route.params;
+    const num = JSON.stringify(contactNo)
+    useEffect(() => {
+      console.log(id)
+      setCid(id)
+      onChangeCName(companyName)
+      onChangeNumber(num)
+      onChangeAddress(companyAddress)
+      onChangeDescription(desc)
+      setSelectedValue(category)
+      setImage(thumbnail)
+    }, [])
   const handleOpen = () => {
     setVisible(true);
   };
@@ -266,7 +288,59 @@ const CompanyUpdateForm = ({ navigation }) => {
         this.bs.current.snapTo(1);
       });
     }
+    
+    const handleSubmit = () => {
+      const company = {
+        id:cId,
+        companyName: cname,
+        address: address,
+        contactNo: number,
+        category: selectedValue,
+        images: [image],
+        description: description,
+      }
+         console.log(company)
+         
+        api.put('/company/update/', company).then(function (response) {
+          console.log(response.data);
+          if (response.data.message) {
+              alert.info(response.data.message);
+          }
+          setModalVisible(true)
+          onChangeCName(null)
+          onChangeAddress(null)
+          onChangeDescription(null)
+          onChangeNumber(null)
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
 
+
+}
+
+    const _onPressButton = () => {
+      if (!cname || !number || !address || !description)
+        ToastAndroid.showWithGravityAndOffset(
+          "Please fill all the fields",
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50
+        );
+      validate({
+        cname: { minlength: 3, },
+        address: {minlength: 3, },
+        number: { numbers: true },
+        description: { minlength: 6 },
+      });
+     handleSubmit()
+    };
+
+    function navigateMyCompanies(){
+      navigation.push('MyCompanies')
+      setModalVisible(!modalVisible)
+    }
     return(
       
     <SafeAreaProvider style={backgroundStyle}>
@@ -307,68 +381,86 @@ const CompanyUpdateForm = ({ navigation }) => {
                 borderTopRightRadius: 25,
 
             }}>
-          <Kohana
-            style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18}}
-            label={'Company Name'}
+           <Text style={styles.label}>
+                    Company Name
+                </Text>
+          <Fumi
+            style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18,paddingBottom:0}}
             iconClass={FontAwesomeIcon}
             iconName={'building-o'}
             iconColor={'#5956E9'}
             iconSize={32}
-            inputPadding={16}
-            labelStyle={{ color: '#000', fontSize: 22,fontWeight:'normal',fontFamily: 'Raleway-Bold' }}
-            inputStyle={{ color: '#000', fontSize: 18 }}
-            iconContainerStyle={{ padding: 20 }}
+            iconWidth={40}
+            iconHeigh={50}
+            placeholder={"Company Name"}
+            inputStyle={{ color: '#000', fontSize: 18,paddingBottom:23 }}
             onChangeText={onChangeCName}
-            useNativeDriver
             value={cname}
           />
-          
-          <Kohana
+          {isFieldInError('cname') &&
+          getErrorsInField('cname').map(errorMessage => (
+            <Text style={styles.errorMsg}>Please enter a valid Name</Text>
+          ))}
+          <Text style={styles.label}>
+                    Address
+                </Text>
+          <Fumi
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18}}
-            label={'Address'}
-            iconClass={FontAwesomeIcon}
-            iconName={'envelope-square'}
+            
+            iconClass={Feather}
+            iconName={'mail'}
             iconColor={'#5956E9'}
-            iconSize={38}
-            inputPadding={16}
-            labelStyle={{ color: '#000', fontSize: 22,fontWeight:'normal',fontFamily: 'Raleway-Bold'  }}
-            inputStyle={{ color: '#000', fontSize: 18 }}
-            iconContainerStyle={{ padding: 20 }}
+            iconSize={32}
+            iconWidth={40}
+            iconHeigh={50}
+            placeholder={"Address"}
+            inputStyle={{ color: '#000', fontSize: 18,paddingBottom:23 }}
             onChangeText={onChangeAddress}
-            useNativeDriver
             value={address}
           />
-   <Kohana
+          {isFieldInError('address') &&
+          getErrorsInField('address').map(errorMessage => (
+            <Text style={styles.errorMsg}>Please enter a valid Address</Text>
+          ))}
+          <Text style={styles.label}>
+                    Contact No
+                </Text>
+   <Fumi
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18 }}
-            label={'Contact No'}
+           
             iconClass={FontAwesomeIcon}
             iconName={'mobile'}
             iconColor={'#5956E9'}
-            iconSize={38}
-            inputPadding={16}
-            labelStyle={{ color: '#000', fontSize: 22 ,fontWeight:'normal',fontFamily: 'Raleway-Bold' }}
-            inputStyle={{ color: '#000', fontSize: 18 }}
-            iconContainerStyle={{ padding: 20 }}
+            iconSize={40}
+            iconWidth={40}
+            iconHeigh={50}
+            placeholder={"Company Name"}
+            inputStyle={{ color: '#000', fontSize: 18,paddingBottom:24 }}
             onChangeText={onChangeNumber}
-            useNativeDriver
+            placeholder={"Contact No"}
             value={number}
           />
-            
+            {isFieldInError('number') &&
+          getErrorsInField('number').map(errorMessage => (
+            <Text style={styles.errorMsg}>Please enter a valid Phone Number</Text>
+          ))}
                
                 <Text style={styles.label}>
                     Category
                 </Text>
                 <Picker
+                style={{backgroundColor:'#f9f9f9'}}
                     selectedValue={selectedValue}
                     fullWidth
-                    style={{ height: 50, backgroundColor: '#F6F6F6', marginLeft: 12,fontWeight:'normal',  }}
+                    itemStyle={{ color: '#000', fontSize: 22,fontWeight:'bold',fontFamily: 'Raleway-Bold' }}
+                    
                     onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                     mode={'dropdown'}
                 >
-                    <Picker.Item style={{ fontSize: 18,fontFamily: 'Raleway-Bold' }} fullWidth label="Restaurant" value="restaurant" />
-                    <Picker.Item   style={{ fontSize: 18}}fullWidth label="Hotel" value="hotel" />
-                    <Picker.Item  style={{ fontSize: 18}} fullWidth label="Grocery" value="grocery" />
-                    <Picker.Item  style={{ fontSize: 18}} fullWidth label="Other" value="other" />
+                    <Picker.Item   style={{ color: '#000', fontSize: 18,fontWeight:'normal',fontFamily: 'Raleway-Bold' }} fullWidth label="Restaurant" value="restaurant" />
+                    <Picker.Item   style={{ color: '#000', fontSize: 18,fontWeight:'normal',fontFamily: 'Raleway-Bold' }} fullWidth label="Hotel" value="hotel" />
+                    <Picker.Item  style={{ color: '#000', fontSize: 18,fontWeight:'normal',fontFamily: 'Raleway-Bold' }}  fullWidth label="Grocery" value="grocery" />
+                    <Picker.Item  style={{ color: '#000', fontSize: 18,fontWeight:'normal',fontFamily: 'Raleway-Bold' }} fullWidth label="Other" value="other" />
                 </Picker>
                 
 
@@ -383,7 +475,7 @@ const CompanyUpdateForm = ({ navigation }) => {
                     source={{
                         uri: image,
                     }}
-                    style={{ borderRadius: 15,height: 300, width: 300,display:'flex' , marginLeft:30, marginBottom:30, justifyContent: 'center', backgroundColor:'#808080' }}
+                    style={{ borderRadius: 15,height: 300, width: 300,display:'flex' , marginLeft:30, marginBottom:30,marginTop:10, justifyContent: 'center', backgroundColor:'#808080' }}
                     imageStyle={{ borderRadius: 15 }}>
                     <View
                         style={{
@@ -394,24 +486,30 @@ const CompanyUpdateForm = ({ navigation }) => {
                     </View>
                 </ImageBackground>
                </Pressable>
-               <Kohana
+               <Text style={styles.label}>
+                    Description
+                </Text>
+               <Fumi
             style={{ backgroundColor: '#f9f9f9', borderRadius: 5,marginTop:18 }}
-            label={'Description'}
             iconClass={FontAwesomeIcon}
             iconName={'file-text-o'}
             iconColor={'#5956E9'}
             iconSize={32}
-            inputPadding={16}
-            labelStyle={{ color: '#000', fontSize: 22,fontWeight:'normal',fontFamily: 'Raleway-Bold'  }}
-            inputStyle={{ color: '#000', fontSize: 18 }}
+            iconWidth={40}
+            iconHeigh={50}
+            placeholder={"Description"}
+            inputStyle={{ color: '#000', fontSize: 18,paddingBottom:23 }}
             iconContainerStyle={{ padding: 20 }}
             onChangeText={onChangeDescription}
-            useNativeDriver
             value={description}
           />
+           {isFieldInError('description') &&
+          getErrorsInField('description').map(errorMessage => (
+            <Text style={styles.errorMsg}>Please enter a valid Description</Text>
+          ))}      
                  
                 
-      <TouchableHighlight underlayColor="transparent"   onPress={() => setModalVisible(true)} style={styles.AddBtn}>
+      <TouchableHighlight underlayColor="transparent"  onPress={() => _onPressButton()}  style={styles.AddBtn}>
             
             <View style={styles.AddReviewBtnContainer}>
                         <Ionicons style={styles.FeedbackAddIcon} name="ios-add-circle-outline" />
@@ -423,6 +521,7 @@ const CompanyUpdateForm = ({ navigation }) => {
 
                 <View style={styles.centeredView}>
                     <Modal
+                     onPress={() => navigateMyCompanies()}
                         animationType="fade"
                         transparent={true}
                         visible={modalVisible}
@@ -437,7 +536,7 @@ const CompanyUpdateForm = ({ navigation }) => {
 
                                     <Pressable
 
-                                        onPress={() => setModalVisible(!modalVisible)}
+                                        onPress={() => navigateMyCompanies()}
                                     >
                                         <ImageBackground
                                             source={{
